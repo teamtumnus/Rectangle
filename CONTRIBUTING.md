@@ -13,10 +13,14 @@ Add the version of Rectangle, the version of the OS, and screenshots or videos a
 
 Please match the existing coding style as much as possible.
 
+## Development dependencies
+
+This fork has no remote Swift package dependencies. `LocalPackages/RectangleShortcuts` is an in-repository, statically linked package that uses only Apple system frameworks. Run its independent tests with `swift test --package-path LocalPackages/RectangleShortcuts`, and run `scripts/verify-dependency-boundary.sh` before submitting changes.
+
 ## License
 
 By contributing to Rectangle you agree that your contributions will be licensed under its MIT license.
 
 ## Incentives
 
-Logic from Rectangle is used in the [Multitouch](https://multitouch.app) app. The [Rectangle Pro](https://rectangleapp.com/pro) app is entirely built on top of Rectangle. If you contribute significant code or localizations that get merged into Rectangle, you get a free license of Multitouch or Rectangle Pro. Contributors to Sparkle, MASShortcut, or Spectacle can also receive free Multitouch or Rectangle Pro licenses (just send me an email).
+The upstream Rectangle project is used by the [Multitouch](https://multitouch.app) and [Rectangle Pro](https://rectangleapp.com/pro) apps. See [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) for the upstream project's contribution incentives.

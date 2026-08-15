@@ -1,8 +1,13 @@
 # Rectangle
 
-[![Build](https://github.com/rxhanson/Rectangle/actions/workflows/build.yml/badge.svg)](https://github.com/rxhanson/Rectangle/actions/workflows/build.yml)
+[![Build](https://github.com/teamtumnus/Rectangle/actions/workflows/build.yml/badge.svg)](https://github.com/teamtumnus/Rectangle/actions/workflows/build.yml)
 
 Rectangle is a window management app based on Spectacle, written in Swift.
+
+> [!IMPORTANT]
+> This repository is a security-focused fork of the upstream [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) project. It removes built-in update checking, downloading, and installation, and replaces the external shortcut package with the in-repository `RectangleShortcuts` Swift package, which uses only Apple system frameworks. This version never checks for updates automatically; update it manually from this repository.
+
+The upstream project and its contributors retain their original attribution. This fork remains available under Rectangle's [MIT license](LICENSE).
 
 <img width="962" height="886" alt="image" src="https://github.com/user-attachments/assets/e8d88e5f-7d4f-43bc-a82e-146c42f92d68" />
 
@@ -12,13 +17,7 @@ Rectangle supports macOS v10.15+. The last version that is supported for macOS 1
 
 ## Installation
 
-You can download the latest dmg from <https://rectangleapp.com> or the [Releases page](https://github.com/rxhanson/Rectangle/releases).
-
-Or install with brew cask:
-
-```bash
-brew install --cask rectangle
-```
+This fork is separate from the upstream website, Homebrew cask, and upstream releases. Obtain its source—or a release when one is provided—from [teamtumnus/Rectangle](https://github.com/teamtumnus/Rectangle), and update it manually from that repository. Installing from <https://rectangleapp.com>, Homebrew, or the upstream releases installs the upstream version instead.
 
 ## How to use it
 
@@ -69,7 +68,7 @@ See [TerminalCommands.md](TerminalCommands.md)
 
 ## Differences with Spectacle
 
-* Rectangle uses [MASShortcut](https://github.com/rxhanson/MASShortcut) for keyboard shortcut recording. Spectacle used its own shortcut recorder.
+* Rectangle uses the in-repository, Apple-only `RectangleShortcuts` library for keyboard shortcut recording. Spectacle used its own shortcut recorder.
 * Rectangle has additional window actions: move windows to each edge without resizing, maximize only the height of a window, almost maximizing a window.
 * Next/prev screen thirds is replaced with explicitly first third, first two thirds, center third, last two thirds, and last third. Screen orientation is taken into account, as in first third will be left third on landscape and top third on portrait.
   * You can however emulate Spectacle's third cycling using first and last third actions. So, if you repeatedly execute first third, it will cycle through thirds (first, center, last) and vice-versa with the last third.
@@ -182,7 +181,7 @@ brew uninstall --zap rectangle
 
 ## Contributing
 
-Logic from Rectangle is used in the [Multitouch](https://multitouch.app) app. The [Rectangle Pro](https://rectangleapp.com/pro) app is entirely built on top of Rectangle. If you contribute significant code or localizations that get merged into Rectangle, send me an email for a free license of Multitouch or Rectangle Pro. Contributors to Sparkle, MASShortcut, or Spectacle can also receive free Multitouch or Rectangle Pro licenses.
+The upstream Rectangle project is used by the [Multitouch](https://multitouch.app) and [Rectangle Pro](https://rectangleapp.com/pro) apps. See the [upstream repository](https://github.com/rxhanson/Rectangle) for its contribution policies and incentives.
 
 ### Contributing additional sizes and positions
 
@@ -196,15 +195,13 @@ Pull requests for new localizations or improvements on existing localizations ar
 
 ### Running the app in Xcode (for developers)
 
-Rectangle uses [Swift Package Manager](https://www.swift.org/package-manager/) to install Sparkle and MASShortcut.
-
-The original repository for MASShortcut was archived, so Rectangle uses my [fork](https://github.com/rxhanson/MASShortcut). If you want to make any changes that involve MASShortcut, please make a pull request on my fork. 
+This fork has no remote Swift package dependencies. Its only package, `LocalPackages/RectangleShortcuts`, is statically linked from this repository and depends only on Foundation, AppKit, and Apple's Carbon/HIToolbox APIs. Package tests can be run with `swift test --package-path LocalPackages/RectangleShortcuts`.
 
 Due to the addition of the Liquid Glass icon with a fallback for older versions of macOS, there will be a build failure on macOS versions < 26. You can delete the "Asset Catalog Other Flags" to build locally on versions < 26 (but don't check that change in if you create a pull request).
 
 ## Credits
 
-As mentioned above, Rectangle uses a forked version of [MASShortcut](https://github.com/rxhanson/MASShortcut), which still works great, and it uses [Sparkle](https://sparkle-project.org) for updates. 
+This fork is based on [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) and preserves its MIT license and community attribution. Shortcut-recorder translations derived from MASShortcut retain their BSD license notice in `LocalPackages/RectangleShortcuts/LICENSE-MASShortcut-Translations`; no MASShortcut executable code or external package is included.
 
 The Big Sur variant of the Rectangle app icon was created by Giovanni Maria Cusaro (@gmcusaro). The Liquid Glass variant of the app icon was created by [Alexander Käßner](https://www.alexkaessner.de) (@alexkaessner).
 
