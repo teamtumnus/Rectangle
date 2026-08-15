@@ -1,13 +1,9 @@
 ---
 name: Feature idea
-about: Please use the Discussions tab to share a feature idea ⬆️
+about: Propose a feature that you intend to implement
 title: ''
 labels: 'enhancement'
 assignees: ''
-contact_links:
-  - name: Rectangle Discussions
-    url: https://github.com/rxhanson/Rectangle/discussions
-    about: Please discuss feature ideas here.
 ---
 
-Feature ideas are now kept in the [discussions tab](https://github.com/rxhanson/Rectangle/discussions). Please create an issue there, not here.
+HardRectangle is not currently accepting feature requests unless you plan to implement the change and submit a pull request. Describe the proposed behavior and implementation here so it can be reviewed before you begin.

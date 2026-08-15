@@ -1,29 +1,31 @@
-# Rectangle
+# HardRectangle
 
-[![Build](https://github.com/teamtumnus/Rectangle/actions/workflows/build.yml/badge.svg)](https://github.com/teamtumnus/Rectangle/actions/workflows/build.yml)
+[![Build](https://github.com/teamtumnus/HardRectangle/actions/workflows/build.yml/badge.svg)](https://github.com/teamtumnus/HardRectangle/actions/workflows/build.yml)
 
-Rectangle is a window management app based on Spectacle, written in Swift.
+HardRectangle is a macOS window manager based on Rectangle and Spectacle, written in Swift.
 
 > [!IMPORTANT]
-> This repository is a security-focused fork of the upstream [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) project. It removes built-in update checking, downloading, and installation, and replaces the external shortcut package with the in-repository `RectangleShortcuts` Swift package, which uses only Apple system frameworks. This version never checks for updates automatically; update it manually from this repository.
+> This repository is a security-focused fork of the upstream [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) project. It removes built-in update checking, downloading, and installation, and replaces the external shortcut package with the in-repository `HardRectangleShortcuts` Swift package, which uses only Apple system frameworks. This version never checks for updates automatically; update it manually from this repository.
 
-The upstream project and its contributors retain their original attribution. This fork remains available under Rectangle's [MIT license](LICENSE).
+HardRectangle is an independent fork. It is not affiliated with or endorsed by the upstream Rectangle project. The upstream project and its contributors retain their original attribution, and this fork remains available under the [MIT license](LICENSE).
 
 <img width="962" height="886" alt="image" src="https://github.com/user-attachments/assets/e8d88e5f-7d4f-43bc-a82e-146c42f92d68" />
 
 ## System Requirements
 
-Rectangle supports macOS v10.15+. The last version that is supported for macOS 10.13 and 10.14 is https://github.com/rxhanson/Rectangle/releases/tag/v0.73.
+HardRectangle supports macOS v10.15+. For macOS 10.13 and 10.14, the upstream Rectangle project's final compatible version is [v0.73](https://github.com/rxhanson/Rectangle/releases/tag/v0.73).
 
 ## Installation
 
-This fork is separate from the upstream website, Homebrew cask, and upstream releases. Obtain its source—or a release when one is provided—from [teamtumnus/Rectangle](https://github.com/teamtumnus/Rectangle), and update it manually from that repository. Installing from <https://rectangleapp.com>, Homebrew, or the upstream releases installs the upstream version instead.
+This fork is separate from the upstream website, Homebrew cask, and upstream releases. Obtain its source—or a release when one is provided—from [teamtumnus/HardRectangle](https://github.com/teamtumnus/HardRectangle), and update it manually from that repository. Installing from <https://rectangleapp.com>, Homebrew, or the upstream releases installs the upstream version instead.
+
+HardRectangle uses its own bundle identifier, preferences, Accessibility authorization, URL scheme, and login item. It does not import Rectangle's preferences. Quit Rectangle before running HardRectangle to avoid conflicting shortcuts or window-management actions.
 
 ## How to use it
 
 The [keyboard shortcuts](https://support.apple.com/guide/mac-help/what-are-those-symbols-shown-in-menus-cpmh0011/mac) are self explanatory, but the snap areas can use some explanation if you've never used them on Windows or other window management apps.
 
-Drag a window to the edge of the screen. When the mouse cursor reaches the edge of the screen, you'll see a footprint that Rectangle will attempt to resize and move the window to when the click is released.
+Drag a window to the edge of the screen. When the mouse cursor reaches the edge of the screen, you'll see a footprint that HardRectangle will attempt to resize and move the window to when the click is released.
 
 | Snap Area                                              | Resulting Action                       |
 |--------------------------------------------------------|----------------------------------------|
@@ -36,30 +38,30 @@ Drag a window to the edge of the screen. When the mouse cursor reaches the edge 
 
 ### Ignore an app
 
-Ignoring an app means that when the app is frontmost, keyboard shortcuts are un-registered from macOS. When the app is no longer frontmost, keyboard shortcuts are re-registered with macOS. This is useful for apps that have the same shortcuts like Rectangle and you do not want to change them.
+Ignoring an app means that when the app is frontmost, keyboard shortcuts are un-registered from macOS. When the app is no longer frontmost, keyboard shortcuts are re-registered with macOS. This is useful for apps that have the same shortcuts like HardRectangle and you do not want to change them.
 
 1. Focus the app that you want to ignore (make a window from that app frontmost).
-1. Open the Rectangle menu and select "Ignore app"
+1. Open the HardRectangle menu and select "Ignore app"
 
-To un-ignore an app that you have selected to ignore, simply bring that app frontmost again, open the Rectangle menu, and deselect "Ignore".
+To un-ignore an app that you have selected to ignore, simply bring that app frontmost again, open the HardRectangle menu, and deselect "Ignore".
 
 ## Execute an action by URL
 
-Open the URL `rectangle://execute-action?name=[name]`. Do not activate Rectangle if possible.
+Open the URL `hardrectangle://execute-action?name=[name]`. Do not activate HardRectangle if possible.
 
 Available values for `[name]`: `left-half`, `right-half`, `center-half`, `top-half`, `bottom-half`, `top-left`, `top-right`, `bottom-left`, `bottom-right`, `first-third`, `center-third`, `last-third`, `first-two-thirds`, `last-two-thirds`, `maximize`, `almost-maximize`, `maximize-height`, `smaller`, `larger`, `center`, `center-prominently`, `restore`, `next-display`, `previous-display`, `move-left`, `move-right`, `move-up`, `move-down`, `first-fourth`, `second-fourth`, `third-fourth`, `last-fourth`, `first-three-fourths`, `last-three-fourths`, `top-left-sixth`, `top-center-sixth`, `top-right-sixth`, `bottom-left-sixth`, `bottom-center-sixth`, `bottom-right-sixth`, `specified`, `reverse-all`, `top-left-ninth`, `top-center-ninth`, `top-right-ninth`, `middle-left-ninth`, `middle-center-ninth`, `middle-right-ninth`, `bottom-left-ninth`, `bottom-center-ninth`, `bottom-right-ninth`, `top-left-third`, `top-right-third`, `bottom-left-third`, `bottom-right-third`, `top-left-eighth`, `top-center-left-eighth`, `top-center-right-eighth`, `top-right-eighth`, `bottom-left-eighth`, `bottom-center-left-eighth`, `bottom-center-right-eighth`, `bottom-right-eighth`, `tile-all`, `cascade-all`, `cascade-active-app`
 
-Example, from a shell: `open -g "rectangle://execute-action?name=left-half"`
+Example, from a shell: `open -g "hardrectangle://execute-action?name=left-half"`
 
 URLs can also be used to ignore/unignore apps. 
 
 ```
-rectangle://execute-task?name=ignore-app
-rectangle://execute-task?name=unignore-app
+hardrectangle://execute-task?name=ignore-app
+hardrectangle://execute-task?name=unignore-app
 ```
 A bundle identifier can also be specified, for example:
 ```
-rectangle://execute-task?name=ignore-app&app-bundle-id=com.apple.Safari
+hardrectangle://execute-task?name=ignore-app&app-bundle-id=com.apple.Safari
 ```
 
 ## Terminal Commands for Hidden Preferences
@@ -68,8 +70,8 @@ See [TerminalCommands.md](TerminalCommands.md)
 
 ## Differences with Spectacle
 
-* Rectangle uses the in-repository, Apple-only `RectangleShortcuts` library for keyboard shortcut recording. Spectacle used its own shortcut recorder.
-* Rectangle has additional window actions: move windows to each edge without resizing, maximize only the height of a window, almost maximizing a window.
+* HardRectangle uses the in-repository, Apple-only `HardRectangleShortcuts` library for keyboard shortcut recording. Spectacle used its own shortcut recorder.
+* HardRectangle has additional window actions: move windows to each edge without resizing, maximize only the height of a window, almost maximizing a window.
 * Next/prev screen thirds is replaced with explicitly first third, first two thirds, center third, last two thirds, and last third. Screen orientation is taken into account, as in first third will be left third on landscape and top third on portrait.
   * You can however emulate Spectacle's third cycling using first and last third actions. So, if you repeatedly execute first third, it will cycle through thirds (first, center, last) and vice-versa with the last third.
 * There's an option to have windows traverse across displays on subsequent left or right executions.
@@ -77,9 +79,9 @@ See [TerminalCommands.md](TerminalCommands.md)
 
 ## Common Known Issues
 
-### Rectangle doesn't have the ability to move to other desktops/spaces
+### HardRectangle doesn't have the ability to move to other desktops/spaces
 
-Apple never released a public API for doing this. Rectangle Pro has next/prev Space actions, but there are no plans to add those into Rectangle at this time.
+Apple never released a public API for doing this. Rectangle Pro has next/prev Space actions, but there are no plans to add those into HardRectangle at this time.
 
 ### Window resizing is off slightly for iTerm2
 
@@ -89,7 +91,7 @@ By default iTerm2 will only resize in increments of character widths. There migh
 defaults write com.googlecode.iterm2 DisableWindowSizeSnap -integer 1
 ```
 
-### Rectangle appears to cause Notification Center to freeze
+### HardRectangle appears to cause Notification Center to freeze
 
 This appears to affect only a small amount of users. To prevent this from happening, uncheck the box for "Snap windows by dragging".
 See issue [317](https://github.com/rxhanson/Rectangle/issues/317).
@@ -106,7 +108,7 @@ If windows aren't resizing or moving as you expect, here's some initial steps to
 
 **Diagnose the issue:**
 
-4. **Enable debug logging** (see instructions in the following section) – This helps identify whether Rectangle is working correctly.
+4. **Enable debug logging** (see instructions in the following section) – This helps identify whether HardRectangle is working correctly.
 1. The logs are straightforward. If your calculated rect and your resulting rect are identical, chances are that there is another application causing issues.
 
 **Check for conflicts:**
@@ -120,61 +122,46 @@ If windows aren't resizing or moving as you expect, here's some initial steps to
 9. If you suspect there may be another application causing issues, try creating and logging in as a new macOS user.
 1. Save your logs to attach to an issue if you need to create one.
 
-#### Try resetting the macOS accessibility permissions for Rectangle:
+#### Try resetting the macOS accessibility permissions for HardRectangle:
 
 ```bash
-tccutil reset All com.knollsoft.Rectangle
+tccutil reset All com.teamtumnus.HardRectangle
 ```
 
 Or, this can be done with the following steps instead of the tccutil terminal command.
-1. Close Rectangle if it's running
-2. In System Settings -> Privacy & Security -> Accessibility, first disable Rectangle, then remove it with the minus button. (it's important to do both of those steps in that order)
+1. Close HardRectangle if it's running
+2. In System Settings -> Privacy & Security -> Accessibility, first disable HardRectangle, then remove it with the minus button. (it's important to do both of those steps in that order)
 3. Restart your mac.
-4. Launch Rectangle and enable settings for it as prompted.
+4. Launch HardRectangle and enable settings for it as prompted.
 
 ## View Debug Logging
 
-1. Hold down the alt (option) key with the Rectangle menu open.
+1. Hold down the alt (option) key with the HardRectangle menu open.
 1. Select the "View Logging..." menu item, which is in place of the "About" menu item.
-1. Logging will appear in the window as you perform Rectangle commands.
+1. Logging will appear in the window as you perform HardRectangle commands.
 
 ## Import & export JSON config
 
 There are buttons for importing and exporting the config as a JSON file in the settings tab of the preferences window. 
 
-Upon launch, Rectangle will load a config file at `~/Library/Application Support/Rectangle/RectangleConfig.json` if it is present and will rename that file with a time/date stamp so that it isn't read on subsequent launches.
+Upon launch, HardRectangle will load a config file at `~/Library/Application Support/HardRectangle/HardRectangleConfig.json` if it is present and will rename that file with a time/date stamp so that it isn't read on subsequent launches.
 
 ## Preferences Storage
 
-The configuration for Rectangle is stored using NSUserDefaults, meaning it is stored in the following location:
-`~/Library/Preferences/com.knollsoft.Rectangle.plist`
+The configuration for HardRectangle is stored using NSUserDefaults, meaning it is stored in the following location:
+`~/Library/Preferences/com.teamtumnus.HardRectangle.plist`
 Note that shortcuts in v0.41+ are stored in a different format and will not load in prior versions.
 
 That file can be backed up or transferred to other machines.
 
-If you are using Rectangle v0.44+, you can also use the import/export button in the Preferences pane to share to your preferences and keyboard shortcuts across machines using a JSON file.
-
-> [!NOTE]  
-> If you are having issues with configuration options persisting after an application restart and you've installed using Homebrew, you will need to uninstall and reinstall with the `--zap` flag.
-
-```
-brew uninstall --zap rectangle
-brew install rectangle
-```
+If you are using HardRectangle v0.44+, you can also use the import/export button in the Preferences pane to share to your preferences and keyboard shortcuts across machines using a JSON file.
 
 ## Uninstallation
 
-Rectangle can be uninstalled by quitting the app and moving it to the trash. You can remove the Rectangle defaults from your machine with the following terminal command:
+HardRectangle can be uninstalled by quitting the app and moving it to the trash. You can remove the HardRectangle defaults from your machine with the following terminal command:
 
 ```bash
-defaults delete com.knollsoft.Rectangle
-```
-
-> [!TIP]  
-> If you are uninstalling after installing with Homebrew, you should include the `--zap` flag to ensure it removes the plist entries too. 
-
-```
-brew uninstall --zap rectangle
+defaults delete com.teamtumnus.HardRectangle
 ```
 
 ---
@@ -185,7 +172,7 @@ The upstream Rectangle project is used by the [Multitouch](https://multitouch.ap
 
 ### Contributing additional sizes and positions
 
-Rectangle's UI is intentionally simple. If you want to add a size and position that's not in the Shortcuts tab, then you can now add them into the "Extra Shortcuts" section accessed via the ellipsis button at the bottom of the General tab.
+HardRectangle's UI is intentionally simple. If you want to add a size and position that's not in the Shortcuts tab, then you can now add them into the "Extra Shortcuts" section accessed via the ellipsis button at the bottom of the General tab.
 
 ### Localization
 
@@ -195,14 +182,14 @@ Pull requests for new localizations or improvements on existing localizations ar
 
 ### Running the app in Xcode (for developers)
 
-This fork has no remote Swift package dependencies. Its only package, `LocalPackages/RectangleShortcuts`, is statically linked from this repository and depends only on Foundation, AppKit, and Apple's Carbon/HIToolbox APIs. Package tests can be run with `swift test --package-path LocalPackages/RectangleShortcuts`.
+This fork has no remote Swift package dependencies. Its only package, `LocalPackages/HardRectangleShortcuts`, is statically linked from this repository and depends only on Foundation, AppKit, and Apple's Carbon/HIToolbox APIs. Package tests can be run with `swift test --package-path LocalPackages/HardRectangleShortcuts`.
 
 Due to the addition of the Liquid Glass icon with a fallback for older versions of macOS, there will be a build failure on macOS versions < 26. You can delete the "Asset Catalog Other Flags" to build locally on versions < 26 (but don't check that change in if you create a pull request).
 
 ## Credits
 
-This fork is based on [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) and preserves its MIT license and community attribution. `RectangleShortcuts` is an in-repository, modified Swift adaptation of [MASShortcut](https://github.com/rxhanson/MASShortcut/tree/2f9fbb3f959b7a683c6faaf9638d22afad37a235); its implementation and localizations retain the bundled BSD license notice. MASShortcut is not linked as an external package.
+This fork is based on [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) and preserves its MIT license and community attribution. `HardRectangleShortcuts` is an in-repository, modified Swift adaptation of [MASShortcut](https://github.com/rxhanson/MASShortcut/tree/2f9fbb3f959b7a683c6faaf9638d22afad37a235); its implementation and localizations retain the bundled BSD license notice. MASShortcut is not linked as an external package.
 
-The Big Sur variant of the Rectangle app icon was created by Giovanni Maria Cusaro (@gmcusaro). The Liquid Glass variant of the app icon was created by [Alexander Käßner](https://www.alexkaessner.de) (@alexkaessner).
+The app icon variants inherited from Rectangle were created by Giovanni Maria Cusaro (@gmcusaro) and [Alexander Käßner](https://www.alexkaessner.de) (@alexkaessner).
 
 And of course, there's been a lot of community contributions over the years :)
