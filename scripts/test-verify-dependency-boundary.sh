@@ -26,4 +26,26 @@ if [[ "$output" != *"Dependency boundary check failed while checking"* ]]; then
     exit 1
 fi
 
-echo "Dependency boundary error handling verified."
+fake_app="$test_directory/Rectangle.app"
+mkdir -p "$fake_app/Contents/MacOS"
+touch "$fake_app/Contents/MacOS/Rectangle"
+
+fake_file="$test_directory/file"
+printf '#!/bin/bash\necho "Mach-O universal binary with 2 architectures"\n' > "$fake_file"
+chmod +x "$fake_file"
+
+fake_otool="$test_directory/otool"
+printf '%s\n' \
+    '#!/bin/bash' \
+    'candidate=$2' \
+    'echo "$candidate (architecture x86_64):"' \
+    'echo "    /usr/lib/libSystem.B.dylib (compatibility version 1.0.0)"' \
+    'echo "$candidate (architecture arm64):"' \
+    'echo "    /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0)"' \
+    > "$fake_otool"
+chmod +x "$fake_otool"
+
+FILE_COMMAND="$fake_file" OTOOL_COMMAND="$fake_otool" \
+    bash "$verification_script" "$fake_app" >/dev/null
+
+echo "Dependency boundary regression tests passed."
