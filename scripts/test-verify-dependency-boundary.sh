@@ -4,7 +4,7 @@ set -euo pipefail
 
 repo_root=$(cd "$(dirname "$0")/.." && pwd)
 verification_script="$repo_root/scripts/verify-dependency-boundary.sh"
-test_directory=$(mktemp -d "${TMPDIR:-/tmp}/rectangle-dependency-check.XXXXXX")
+test_directory=$(mktemp -d "${TMPDIR:-/tmp}/hardrectangle-dependency-check.XXXXXX")
 trap 'rm -rf "$test_directory"' EXIT
 
 fake_git="$test_directory/git-error"
@@ -49,9 +49,9 @@ if [[ $status -ne 1 || "$output" != *"Vendor/RemotePackage/Package.swift"* ]]; t
     exit 1
 fi
 
-fake_app="$test_directory/Rectangle.app"
+fake_app="$test_directory/HardRectangle.app"
 mkdir -p "$fake_app/Contents/MacOS"
-touch "$fake_app/Contents/MacOS/Rectangle"
+touch "$fake_app/Contents/MacOS/HardRectangle"
 
 fake_file="$test_directory/file"
 printf '#!/bin/bash\necho "Mach-O universal binary with 2 architectures"\n' > "$fake_file"

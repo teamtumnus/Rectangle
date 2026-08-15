@@ -43,7 +43,7 @@ if [[ -n "$resolved_files" ]]; then
 fi
 
 if [[ $# -gt 1 ]]; then
-    echo "Usage: $0 [Rectangle.app]" >&2
+    echo "Usage: $0 [HardRectangle.app]" >&2
     exit 2
 fi
 
@@ -54,7 +54,7 @@ if [[ $# -eq 1 ]]; then
         exit 2
     fi
 
-    candidate_list=$(mktemp "${TMPDIR:-/tmp}/rectangle-packaged-files.XXXXXX")
+    candidate_list=$(mktemp "${TMPDIR:-/tmp}/hardrectangle-packaged-files.XXXXXX")
     trap 'rm -f "$candidate_list"' EXIT
     find_status=0
     "$find_command" "$app_path/Contents" -type f -print0 > "$candidate_list" || find_status=$?
