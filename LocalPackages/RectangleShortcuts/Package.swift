@@ -21,6 +21,10 @@ let package = Package(
                 .linkedFramework("AppKit"),
                 .linkedFramework("Carbon")
             ]
+        ),
+        .testTarget(
+            name: "RectangleShortcutsTests",
+            dependencies: ["RectangleShortcuts"]
         )
     ]
 )

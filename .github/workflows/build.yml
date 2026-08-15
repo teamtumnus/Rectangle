@@ -20,7 +20,29 @@ jobs:
     runs-on: macos-26
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
+    - name: Test local shortcut package
+      run: swift test --package-path LocalPackages/RectangleShortcuts
+    - name: Verify dependency boundary
+      run: bash scripts/verify-dependency-boundary.sh
+    - name: Build for testing without running app-hosted tests
+      run: >-
+        xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
+        -configuration Debug -destination "generic/platform=macOS"
+        -derivedDataPath "$RUNNER_TEMP/RectangleDerivedData-Debug"
+        CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build-for-testing
+    - name: Build unsigned Debug
+      run: >-
+        xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
+        -configuration Debug -destination "generic/platform=macOS"
+        -derivedDataPath "$RUNNER_TEMP/RectangleDerivedData-Debug"
+        CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build
+    - name: Build unsigned Release
+      run: >-
+        xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
+        -configuration Release -destination "generic/platform=macOS"
+        -derivedDataPath "$RUNNER_TEMP/RectangleDerivedData-Release"
+        CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build
     - name: Build
       run: xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" archive CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" -archivePath "$BUILD_DIR/$XCODE_ARCHIVE"
     - name: Export
@@ -35,10 +57,12 @@ jobs:
         xcodebuild -exportArchive -archivePath "$BUILD_DIR/$XCODE_ARCHIVE" -exportPath "$BUILD_DIR" -exportOptionsPlist "$EXPORT_OPTIONS_PLIST"
     - name: Resign App
       run: codesign --force --deep -s "$CODE_SIGN_IDENTITY" "$BUILD_DIR/$APP_NAME"
+    - name: Inspect packaged app dependency boundary
+      run: bash scripts/verify-dependency-boundary.sh "$BUILD_DIR/$APP_NAME"
     - name: Make DMG
       run: hdiutil create -srcdir "$BUILD_DIR" -volname "$DMG_NAME" "$DMG_FILE_NAME"
     - name: Upload
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Build
         path: ${{ env.DMG_FILE_NAME }}
