@@ -4,15 +4,26 @@ set -euo pipefail
 
 repo_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_root"
+rg_command=${RG_COMMAND:-rg}
 
 fail_with_matches() {
     local description=$1
     shift
     local matches
-    if matches=$(rg -n "$@" 2>/dev/null); then
+    local status
+
+    if matches=$("$rg_command" -n "$@" 2>&1); then
         echo "Dependency boundary violation: $description" >&2
         echo "$matches" >&2
         exit 1
+    else
+        status=$?
+    fi
+
+    if [[ $status -ne 1 ]]; then
+        echo "Dependency boundary check failed while checking: $description" >&2
+        echo "$matches" >&2
+        exit "$status"
     fi
 }
 
@@ -42,9 +53,11 @@ if [[ $# -eq 1 ]]; then
     fi
 
     while IFS= read -r -d '' candidate; do
-        if ! file -b "$candidate" | rg -q '^Mach-O'; then
-            continue
-        fi
+        file_description=$(file -b "$candidate")
+        case "$file_description" in
+            Mach-O*) ;;
+            *) continue ;;
+        esac
 
         case "$candidate" in
             */Contents/MacOS/*|*/Contents/Frameworks/libswift*.dylib)
@@ -56,6 +69,13 @@ if [[ $# -eq 1 ]]; then
                 ;;
         esac
 
+        if ! otool_output=$(otool -L "$candidate" 2>&1); then
+            echo "Dependency boundary check failed while inspecting dynamic libraries" >&2
+            echo "$candidate" >&2
+            echo "$otool_output" >&2
+            exit 1
+        fi
+
         while IFS= read -r dependency; do
             case "$dependency" in
                 /System/Library/*|/usr/lib/*|@rpath/libswift*.dylib|@loader_path/libswift*.dylib|@executable_path/libswift*.dylib)
@@ -66,7 +86,7 @@ if [[ $# -eq 1 ]]; then
                     exit 1
                     ;;
             esac
-        done < <(otool -L "$candidate" | tail -n +2 | awk '{print $1}')
+        done < <(printf '%s\n' "$otool_output" | awk 'NR > 1 { print $1 }')
     done < <(find "$app_path/Contents" -type f -print0)
 fi
 
