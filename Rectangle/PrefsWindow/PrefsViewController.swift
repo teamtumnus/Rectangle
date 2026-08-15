@@ -1,64 +1,64 @@
 /// PrefsViewController.swift
 
 import Cocoa
-import MASShortcut
+import RectangleShortcuts
 import ServiceManagement
 
 class PrefsViewController: NSViewController {
-    
-    var actionsToViews = [WindowAction: MASShortcutView]()
+
+    var actionsToViews = [WindowAction: ShortcutRecorderView]()
     private let shortcutRecordingObserver = ShortcutRecordingObserver()
+
+    @IBOutlet weak var leftHalfShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var rightHalfShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var centerHalfShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var topHalfShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomHalfShortcutView: ShortcutRecorderView!
+
+    @IBOutlet weak var topLeftShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var topRightShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomLeftShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomRightShortcutView: ShortcutRecorderView!
     
-    @IBOutlet weak var leftHalfShortcutView: MASShortcutView!
-    @IBOutlet weak var rightHalfShortcutView: MASShortcutView!
-    @IBOutlet weak var centerHalfShortcutView: MASShortcutView!
-    @IBOutlet weak var topHalfShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomHalfShortcutView: MASShortcutView!
+    @IBOutlet weak var nextDisplayShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var previousDisplayShortcutView: ShortcutRecorderView!
     
-    @IBOutlet weak var topLeftShortcutView: MASShortcutView!
-    @IBOutlet weak var topRightShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomLeftShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomRightShortcutView: MASShortcutView!
+    @IBOutlet weak var makeLargerShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var makeSmallerShortcutView: ShortcutRecorderView!
     
-    @IBOutlet weak var nextDisplayShortcutView: MASShortcutView!
-    @IBOutlet weak var previousDisplayShortcutView: MASShortcutView!
-    
-    @IBOutlet weak var makeLargerShortcutView: MASShortcutView!
-    @IBOutlet weak var makeSmallerShortcutView: MASShortcutView!
-    
-    @IBOutlet weak var maximizeShortcutView: MASShortcutView!
-    @IBOutlet weak var almostMaximizeShortcutView: MASShortcutView!
-    @IBOutlet weak var maximizeHeightShortcutView: MASShortcutView!
-    @IBOutlet weak var centerShortcutView: MASShortcutView!
-    @IBOutlet weak var restoreShortcutView: MASShortcutView!
+    @IBOutlet weak var maximizeShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var almostMaximizeShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var maximizeHeightShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var centerShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var restoreShortcutView: ShortcutRecorderView!
     
     // Additional
-    @IBOutlet weak var firstThirdShortcutView: MASShortcutView!
-    @IBOutlet weak var firstTwoThirdsShortcutView: MASShortcutView!
-    @IBOutlet weak var centerThirdShortcutView: MASShortcutView!
-    @IBOutlet weak var centerTwoThirdsShortcutView: MASShortcutView!
-    @IBOutlet weak var lastTwoThirdsShortcutView: MASShortcutView!
-    @IBOutlet weak var lastThirdShortcutView: MASShortcutView!
-    
-    @IBOutlet weak var moveLeftShortcutView: MASShortcutView!
-    @IBOutlet weak var moveRightShortcutView: MASShortcutView!
-    @IBOutlet weak var moveUpShortcutView: MASShortcutView!
-    @IBOutlet weak var moveDownShortcutView: MASShortcutView!
-    
-    @IBOutlet weak var firstFourthShortcutView: MASShortcutView!
-    @IBOutlet weak var secondFourthShortcutView: MASShortcutView!
-    @IBOutlet weak var thirdFourthShortcutView: MASShortcutView!
-    @IBOutlet weak var lastFourthShortcutView: MASShortcutView!
-    @IBOutlet weak var firstThreeFourthsShortcutView: MASShortcutView!
-    @IBOutlet weak var centerThreeFourthsShortcutView: MASShortcutView!
-    @IBOutlet weak var lastThreeFourthsShortcutView: MASShortcutView!
-    
-    @IBOutlet weak var topLeftSixthShortcutView: MASShortcutView!
-    @IBOutlet weak var topCenterSixthShortcutView: MASShortcutView!
-    @IBOutlet weak var topRightSixthShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomLeftSixthShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomCenterSixthShortcutView: MASShortcutView!
-    @IBOutlet weak var bottomRightSixthShortcutView: MASShortcutView!
+    @IBOutlet weak var firstThirdShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var firstTwoThirdsShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var centerThirdShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var centerTwoThirdsShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var lastTwoThirdsShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var lastThirdShortcutView: ShortcutRecorderView!
+
+    @IBOutlet weak var moveLeftShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var moveRightShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var moveUpShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var moveDownShortcutView: ShortcutRecorderView!
+
+    @IBOutlet weak var firstFourthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var secondFourthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var thirdFourthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var lastFourthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var firstThreeFourthsShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var centerThreeFourthsShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var lastThreeFourthsShortcutView: ShortcutRecorderView!
+
+    @IBOutlet weak var topLeftSixthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var topCenterSixthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var topRightSixthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomLeftSixthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomCenterSixthShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var bottomRightSixthShortcutView: ShortcutRecorderView!
 
     
     @IBOutlet weak var showMoreButton: NSButton!
@@ -112,7 +112,7 @@ class PrefsViewController: NSViewController {
         ]
         
         for (action, view) in actionsToViews {
-            view.setAssociatedUserDefaultsKey(action.name, withTransformerName: MASDictionaryTransformerName)
+            view.bind(toUserDefaultsKey: action.name)
         }
         shortcutRecordingObserver.observe(Array(actionsToViews.values))
         
@@ -135,25 +135,21 @@ class PrefsViewController: NSViewController {
     private func subscribeToAllowAnyShortcutToggle() {
         Notification.Name.allowAnyShortcut.onPost { notification in
             guard let enabled = notification.object as? Bool else { return }
-            let validator = enabled ? PassthroughShortcutValidator() : MASShortcutValidator()
+            let validator = enabled ? PassthroughShortcutValidator() : ShortcutValidator()
             self.actionsToViews.values.forEach { $0.shortcutValidator = validator }
         }
     }
     
 }
 
-class PassthroughShortcutValidator: MASShortcutValidator {
+class PassthroughShortcutValidator: ShortcutValidator {
     
-    override func isShortcutValid(_ shortcut: MASShortcut!) -> Bool {
+    override func isShortcutValid(_ shortcut: KeyboardShortcut) -> Bool {
         return true
     }
     
-    override func isShortcutAlreadyTaken(bySystem shortcut: MASShortcut!, explanation: AutoreleasingUnsafeMutablePointer<NSString?>!) -> Bool {
-        return false
-    }
-    
-    override func isShortcut(_ shortcut: MASShortcut!, alreadyTakenIn menu: NSMenu!, explanation: AutoreleasingUnsafeMutablePointer<NSString?>!) -> Bool {
-        return false
+    override func conflict(for shortcut: KeyboardShortcut) -> String? {
+        nil
     }
     
 }

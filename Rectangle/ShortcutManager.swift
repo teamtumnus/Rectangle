@@ -2,30 +2,28 @@
 
 import Cocoa
 import CoreGraphics
-import MASShortcut
+import RectangleShortcuts
 
 protocol ShortcutBindingStore {
     func configure()
-    func registerDefaultShortcuts(_ shortcuts: [String: MASShortcut])
+    func registerDefaultShortcuts(_ shortcuts: [String: KeyboardShortcut])
     func bindShortcut(withDefaultsKey defaultsKey: String, toAction action: @escaping () -> Void)
     func breakBinding(withDefaultsKey defaultsKey: String)
 }
 
-struct MASShortcutBindingStore: ShortcutBindingStore {
-    func configure() {
-        MASShortcutBinder.shared()?.bindingOptions = [NSBindingOption.valueTransformerName: MASDictionaryTransformerName]
-    }
+struct RectangleShortcutBindingStore: ShortcutBindingStore {
+    func configure() {}
 
-    func registerDefaultShortcuts(_ shortcuts: [String: MASShortcut]) {
-        MASShortcutBinder.shared()?.registerDefaultShortcuts(shortcuts)
+    func registerDefaultShortcuts(_ shortcuts: [String: KeyboardShortcut]) {
+        ShortcutBinder.shared.registerDefaultShortcuts(shortcuts)
     }
 
     func bindShortcut(withDefaultsKey defaultsKey: String, toAction action: @escaping () -> Void) {
-        MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: defaultsKey, toAction: action)
+        ShortcutBinder.shared.bindShortcut(withDefaultsKey: defaultsKey, toAction: action)
     }
 
     func breakBinding(withDefaultsKey defaultsKey: String) {
-        MASShortcutBinder.shared()?.breakBinding(withDefaultsKey: defaultsKey)
+        ShortcutBinder.shared.breakBinding(withDefaultsKey: defaultsKey)
     }
 }
 
@@ -37,7 +35,7 @@ class ShortcutManager {
     private let bindingStore: ShortcutBindingStore
     private let notificationCenter: NotificationCenter
     private let workspaceNotificationCenter: NotificationCenter
-    private let shortcutsProvider: () -> [WindowAction: MASShortcut]
+    private let shortcutsProvider: () -> [WindowAction: KeyboardShortcut]
     private let appDisabledProvider: () -> Bool
     private let scheduler: ShortcutRebindScheduler
     private let todoSessionStateChanged: (Bool) -> Void
@@ -51,10 +49,10 @@ class ShortcutManager {
 
     init(
         windowManager: WindowManager,
-        bindingStore: ShortcutBindingStore = MASShortcutBindingStore(),
+        bindingStore: ShortcutBindingStore = RectangleShortcutBindingStore(),
         notificationCenter: NotificationCenter = .default,
         workspaceNotificationCenter: NotificationCenter = NSWorkspace.shared.notificationCenter,
-        shortcutsProvider: @escaping () -> [WindowAction: MASShortcut] = { ShortcutCycle.shortcutsByAction() },
+        shortcutsProvider: @escaping () -> [WindowAction: KeyboardShortcut] = { ShortcutCycle.shortcutsByAction() },
         activeStateProvider: () -> Bool = {
             let session = CGSessionCopyCurrentDictionary() as? [String: Any]
             return session?[kCGSessionOnConsoleKey] as? Bool ?? true
@@ -139,8 +137,8 @@ class ShortcutManager {
     }
 
     public func getKeyEquivalent(action: WindowAction) -> (String?, NSEvent.ModifierFlags)? {
-        guard let masShortcut = ShortcutCycle.shortcut(for: action) else { return nil }
-        return (masShortcut.keyCodeStringForKeyEquivalent, masShortcut.modifierFlags)
+        guard let keyboardShortcut = ShortcutCycle.shortcut(for: action) else { return nil }
+        return (keyboardShortcut.keyCodeStringForKeyEquivalent, keyboardShortcut.modifierFlags)
     }
 
     deinit {
@@ -150,12 +148,12 @@ class ShortcutManager {
 
     private func registerDefaults() {
 
-        let defaultShortcuts = WindowAction.active.reduce(into: [String: MASShortcut]()) { dict, windowAction in
+        let defaultShortcuts = WindowAction.active.reduce(into: [String: KeyboardShortcut]()) { dict, windowAction in
             guard let defaultShortcut = Defaults.alternateDefaultShortcuts.enabled
                 ? windowAction.alternateDefault
                 : windowAction.spectacleDefault
             else { return }
-            let shortcut = MASShortcut(keyCode: defaultShortcut.keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: defaultShortcut.modifierFlags))
+            let shortcut = KeyboardShortcut(keyCode: defaultShortcut.keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: defaultShortcut.modifierFlags))
             dict[windowAction.name] = shortcut
         }
 
@@ -266,7 +264,7 @@ class ShortcutManager {
     private func reloadShortcutBindingsIfNeeded() {
         guard !isUpdatingShortcutBindings && !shortcutsSuspendedForRecording else { return }
 
-        MASShortcutMigration.syncRenamedSideShortcutAliases()
+        ShortcutMigration.syncRenamedSideShortcutAliases()
         let currentShortcuts = shortcutsProvider()
         let currentIdentities = ShortcutCycle.shortcutIdentities(shortcutsByAction: currentShortcuts)
         guard currentIdentities != shortcutIdentities else { return }
@@ -336,14 +334,14 @@ struct ShortcutCycle {
         let keyCode: Int
         let modifierFlags: UInt
 
-        init(_ shortcut: MASShortcut) {
+        init(_ shortcut: KeyboardShortcut) {
             keyCode = shortcut.keyCode
             modifierFlags = shortcut.modifierFlags.rawValue
         }
     }
 
     struct Group {
-        let shortcut: MASShortcut
+        let shortcut: KeyboardShortcut
         let actions: [WindowAction]
 
         var representativeAction: WindowAction { actions[0] }
@@ -360,37 +358,31 @@ struct ShortcutCycle {
         }
     }
 
-    static func shortcut(for action: WindowAction, userDefaults: UserDefaults = .standard) -> MASShortcut? {
+    static func shortcut(for action: WindowAction, userDefaults: UserDefaults = .standard) -> KeyboardShortcut? {
         return shortcut(forDefaultsKey: action.name, userDefaults: userDefaults)
     }
 
-    static func shortcut(forDefaultsKey defaultsKey: String, userDefaults: UserDefaults = .standard) -> MASShortcut? {
-        guard let shortcutDict = userDefaults.dictionary(forKey: defaultsKey),
-              let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)),
-              let shortcut = dictTransformer.transformedValue(shortcutDict) as? MASShortcut
-        else {
-            return nil
-        }
-
-        return shortcut
+    static func shortcut(forDefaultsKey defaultsKey: String, userDefaults: UserDefaults = .standard) -> KeyboardShortcut? {
+        guard let shortcutDict = userDefaults.dictionary(forKey: defaultsKey) else { return nil }
+        return KeyboardShortcut(dictionaryRepresentation: shortcutDict)
     }
 
-    static func shortcutsByAction(actions: [WindowAction] = WindowAction.active, userDefaults: UserDefaults = .standard) -> [WindowAction: MASShortcut] {
-        actions.reduce(into: [WindowAction: MASShortcut]()) { dict, action in
+    static func shortcutsByAction(actions: [WindowAction] = WindowAction.active, userDefaults: UserDefaults = .standard) -> [WindowAction: KeyboardShortcut] {
+        actions.reduce(into: [WindowAction: KeyboardShortcut]()) { dict, action in
             if let shortcut = shortcut(for: action, userDefaults: userDefaults) {
                 dict[action] = shortcut
             }
         }
     }
 
-    static func shortcutIdentities(shortcutsByAction: [WindowAction: MASShortcut]) -> [WindowAction: ShortcutIdentity] {
+    static func shortcutIdentities(shortcutsByAction: [WindowAction: KeyboardShortcut]) -> [WindowAction: ShortcutIdentity] {
         shortcutsByAction.reduce(into: [WindowAction: ShortcutIdentity]()) { dict, item in
             dict[item.key] = ShortcutIdentity(item.value)
         }
     }
 
     static func groups(actions: [WindowAction] = WindowAction.active,
-                       shortcutsByAction: [WindowAction: MASShortcut]) -> [Group] {
+                       shortcutsByAction: [WindowAction: KeyboardShortcut]) -> [Group] {
         var groups = [Group]()
         var groupIndexesByShortcut = [ShortcutIdentity: Int]()
 

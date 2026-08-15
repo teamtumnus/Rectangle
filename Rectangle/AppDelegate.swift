@@ -90,9 +90,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let currentVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         if let lastVersion = Defaults.lastVersion.value,
            let intLastVersion = Int(lastVersion) {
-            if intLastVersion < 46 {
-                MASShortcutMigration.migrate()
-            }
             if intLastVersion < 64 {
                 SnapAreaModel.instance.migrate()
             }
@@ -105,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Defaults.installVersion.value = currentVersion
             Defaults.allowAnyShortcut.enabled = true
         }
-        MASShortcutMigration.syncRenamedSideShortcutAliases()
+        ShortcutMigration.syncRenamedSideShortcutAliases()
         
         Defaults.lastVersion.value = currentVersion
     }

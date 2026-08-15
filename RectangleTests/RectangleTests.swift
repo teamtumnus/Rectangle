@@ -1,6 +1,6 @@
 /// RectangleTests.swift
 
-import MASShortcut
+import RectangleShortcuts
 import XCTest
 @testable import Rectangle
 
@@ -227,9 +227,7 @@ class ConfigImportTests: XCTestCase {
     }
 
     private func store(_ shortcut: Shortcut, forKey key: String) {
-        let transformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
-        let value = transformer.reverseTransformedValue(shortcut.toMASSHortcut())
-        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.set(shortcut.toKeyboardShortcut().dictionaryRepresentation, forKey: key)
     }
 
     private func loadConfig(shortcuts: [String: Shortcut]) throws {
@@ -3132,7 +3130,7 @@ class ShortcutManagerSessionTests: XCTestCase {
             configureCallCount += 1
         }
 
-        func registerDefaultShortcuts(_ shortcuts: [String: MASShortcut]) {
+        func registerDefaultShortcuts(_ shortcuts: [String: KeyboardShortcut]) {
             registeredDefaultKeys.formUnion(shortcuts.keys)
         }
 
@@ -3172,20 +3170,20 @@ class ShortcutManagerSessionTests: XCTestCase {
         let bindingStore: BindingStoreSpy
         let notificationCenter: NotificationCenter
         let workspaceNotificationCenter: NotificationCenter
-        let shortcuts: ValueBox<[WindowAction: MASShortcut]>
+        let shortcuts: ValueBox<[WindowAction: KeyboardShortcut]>
         let appDisabled: ValueBox<Bool>
         let scheduler: SchedulerSpy
         let todoSessionStates: ValueBox<[Bool]>
     }
 
-    private func shortcut(_ keyCode: Int) -> MASShortcut {
-        MASShortcut(keyCode: keyCode, modifierFlags: [.command, .option])
+    private func shortcut(_ keyCode: Int) -> KeyboardShortcut {
+        KeyboardShortcut(keyCode: keyCode, modifierFlags: [.command, .option])
     }
 
     private func makeHarness(
         initiallyActive: Bool = true,
         appDisabled: Bool = false,
-        shortcuts: [WindowAction: MASShortcut]? = nil
+        shortcuts: [WindowAction: KeyboardShortcut]? = nil
     ) -> Harness {
         let bindingStore = BindingStoreSpy()
         let notificationCenter = NotificationCenter()
@@ -3309,12 +3307,8 @@ class ShortcutManagerSessionTests: XCTestCase {
     }
 
     func testRecordingBlocksSessionRestoreUntilRecordingEnds() throws {
-        let binder = try XCTUnwrap(MASShortcutBinder.shared())
-        let previousBindingOptions = binder.bindingOptions
-        binder.bindingOptions = [NSBindingOption.valueTransformerName: MASDictionaryTransformerName]
         defer {
             TodoManager.setShortcutBindingsSuspended(false)
-            binder.bindingOptions = previousBindingOptions
         }
 
         let harness = makeHarness()
@@ -3370,8 +3364,8 @@ class ShortcutManagerSessionTests: XCTestCase {
 
 class ShortcutCycleTests: XCTestCase {
 
-    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> MASShortcut {
-        MASShortcut(keyCode: keyCode, modifierFlags: flags)
+    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> KeyboardShortcut {
+        KeyboardShortcut(keyCode: keyCode, modifierFlags: flags)
     }
 
     func testSideShortcutActionsKeepLegacyDefaultsKeys() {
@@ -3390,21 +3384,20 @@ class ShortcutCycleTests: XCTestCase {
         }
 
         let centerSectionShortcut = shortcut(1, [.option, .command])
-        let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
-        let shortcutDict = dictTransformer.reverseTransformedValue(centerSectionShortcut)
+        let shortcutDict = centerSectionShortcut.dictionaryRepresentation
         userDefaults.setValue(shortcutDict, forKey: "centerSection")
 
-        MASShortcutMigration.syncRenamedSideShortcutAliases(userDefaults: userDefaults)
+        ShortcutMigration.syncRenamedSideShortcutAliases(userDefaults: userDefaults)
 
         XCTAssertNil(userDefaults.object(forKey: "centerSection"))
         XCTAssertNotNil(userDefaults.object(forKey: "centerHalf"))
         XCTAssertNotNil(ShortcutCycle.shortcut(for: .centerHalf, userDefaults: userDefaults))
 
         let updatedCenterHalfShortcut = shortcut(2, [.option, .command])
-        let updatedShortcutDict = dictTransformer.reverseTransformedValue(updatedCenterHalfShortcut)
+        let updatedShortcutDict = updatedCenterHalfShortcut.dictionaryRepresentation
         userDefaults.setValue(updatedShortcutDict, forKey: "centerHalf")
 
-        MASShortcutMigration.syncRenamedSideShortcutAliases(userDefaults: userDefaults)
+        ShortcutMigration.syncRenamedSideShortcutAliases(userDefaults: userDefaults)
         XCTAssertEqual(ShortcutCycle.shortcut(for: .centerHalf, userDefaults: userDefaults)?.keyCode, updatedCenterHalfShortcut.keyCode)
     }
 
@@ -3479,8 +3472,7 @@ class ShortcutCycleTests: XCTestCase {
         }
 
         let duplicatedShortcut = shortcut(1, [.option, .command])
-        let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
-        let shortcutDict = dictTransformer.reverseTransformedValue(duplicatedShortcut)
+        let shortcutDict = duplicatedShortcut.dictionaryRepresentation
         userDefaults.setValue(shortcutDict, forKey: WindowAction.centerHalf.name)
         userDefaults.setValue(shortcutDict, forKey: WindowAction.centerThird.name)
 
@@ -3496,14 +3488,12 @@ class ShortcutCycleTests: XCTestCase {
 
 class TodoShortcutValidatorTests: XCTestCase {
 
-    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> MASShortcut {
-        MASShortcut(keyCode: keyCode, modifierFlags: flags)
+    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> KeyboardShortcut {
+        KeyboardShortcut(keyCode: keyCode, modifierFlags: flags)
     }
 
-    private func save(_ shortcut: MASShortcut, forKey key: String, in userDefaults: UserDefaults) {
-        let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
-        let shortcutDict = dictTransformer.reverseTransformedValue(shortcut)
-        userDefaults.set(shortcutDict, forKey: key)
+    private func save(_ shortcut: KeyboardShortcut, forKey key: String, in userDefaults: UserDefaults) {
+        userDefaults.set(shortcut.dictionaryRepresentation, forKey: key)
     }
 
     private func userDefaultsSuite() -> (String, UserDefaults) {

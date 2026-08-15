@@ -360,7 +360,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="bGP-y9-ToI" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="bGP-y9-ToI" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="71" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="HHy-nL-j7h"/>
@@ -409,7 +409,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="DJc-yE-qoJ" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="DJc-yE-qoJ" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="79" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="gbX-O0-CQo"/>
@@ -458,7 +458,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="3Pa-H7-x3u" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="3Pa-H7-x3u" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="88" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="Dx5-7f-weD"/>
@@ -507,7 +507,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="ppH-ve-v6N" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="ppH-ve-v6N" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="70" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="CYP-H5-scH"/>
@@ -559,7 +559,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="EhR-CV-u8d" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="EhR-CV-u8d" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="92" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="QPA-YK-9mN"/>
@@ -618,7 +618,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="XIn-7Q-Fuy" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="XIn-7Q-Fuy" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="97" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="L6q-We-uRa"/>
@@ -670,7 +670,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="OgW-L0-nuS" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="OgW-L0-nuS" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="105" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="FKY-cN-MnA"/>
@@ -722,7 +722,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="whf-FK-Ywl" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="whf-FK-Ywl" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="119" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="V1a-Mu-hJH"/>
@@ -774,7 +774,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wi5-BQ-zY2" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wi5-BQ-zY2" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="127" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="PXT-Bz-cXI"/>
@@ -855,7 +855,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="SqN-WJ-u3L" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="SqN-WJ-u3L" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="104" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="YVB-GF-OOD"/>
@@ -904,7 +904,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="WOL-Ei-P6G" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="WOL-Ei-P6G" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="150" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="69s-IR-1dm"/>
@@ -953,7 +953,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="0L5-5g-6s0" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="0L5-5g-6s0" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="148" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="oPS-P2-srV"/>
@@ -1002,7 +1002,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="yrl-Hc-jn1" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="yrl-Hc-jn1" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="129" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="31I-cC-V5H"/>
@@ -1051,7 +1051,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Oab-Yb-TxI" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Oab-Yb-TxI" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="123" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="O6Q-LT-YZV"/>
@@ -1100,7 +1100,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="WrB-f6-rnc" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="WrB-f6-rnc" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="140" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="7rp-wt-YNO"/>
@@ -1149,7 +1149,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="lej-Pz-wb0" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="lej-Pz-wb0" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="94" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="fkn-Kg-zlU"/>
@@ -1205,7 +1205,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Omo-F2-B0I" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Omo-F2-B0I" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="123" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="Ftc-bL-dER"/>
@@ -1254,7 +1254,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="daM-hW-c6u" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="daM-hW-c6u" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="147" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="LcG-CM-Hse"/>
@@ -1374,7 +1374,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="I3d-KP-y1J" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="I3d-KP-y1J" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="109" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="6Q8-54-QyQ"/>
@@ -1423,7 +1423,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="G13-Q4-CV6" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="G13-Q4-CV6" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="123" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="4xq-rG-nKr"/>
@@ -1472,7 +1472,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="MYy-5x-boe" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="MYy-5x-boe" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="108" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="3I7-hv-MZL"/>
@@ -1521,7 +1521,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="cLa-f6-RSt" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="cLa-f6-RSt" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="144" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="F1y-fr-HRS"/>
@@ -1570,7 +1570,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="mbU-By-HWo" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="mbU-By-HWo" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="158" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="U50-do-4GY"/>
@@ -1619,7 +1619,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Km-ay-hPl" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Km-ay-hPl" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="143" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="dfA-2A-xPS"/>
@@ -1675,7 +1675,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="lMl-Xc-93q" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="lMl-Xc-93q" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="131" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="8Qv-7d-U7a"/>
@@ -1724,7 +1724,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="qlu-3c-eH6" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="qlu-3c-eH6" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="148" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="hPL-RB-OWH"/>
@@ -1773,7 +1773,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="kbl-TR-waH" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="kbl-TR-waH" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="139" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="kzJ-Rz-vkN"/>
@@ -1822,7 +1822,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="i2i-uH-Bdw" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="i2i-uH-Bdw" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="153" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="4j2-q3-PeM"/>
@@ -1871,7 +1871,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="N5I-c3-Pld" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="N5I-c3-Pld" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="170" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="82q-LC-64Z"/>
@@ -1920,7 +1920,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="yRx-4l-5cf" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="yRx-4l-5cf" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="161" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="GFc-9O-1CK"/>
@@ -2004,7 +2004,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="UH9-8R-0Vx" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="UH9-8R-0Vx" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="117" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="c0m-1n-nyI"/>
@@ -2053,7 +2053,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="K1S-Mg-vfI" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="K1S-Mg-vfI" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="137" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="FTR-Z9-HX5"/>
@@ -2102,7 +2102,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="OmC-pU-vQt" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="OmC-pU-vQt" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="122" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="ViF-zj-jhZ"/>
@@ -2151,7 +2151,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Icr-hA-oP5" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Icr-hA-oP5" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="116" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="1Gv-IT-pLU"/>
@@ -2200,7 +2200,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="bRp-d2-DdY" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="bRp-d2-DdY" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="163" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="Byj-tv-JLA"/>
@@ -2249,7 +2249,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="FRg-7N-byF" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="FRg-7N-byF" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="177" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="6RS-s3-tH8"/>
@@ -2298,7 +2298,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="54r-uU-1LO" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="54r-uU-1LO" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="162" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="Ocm-Nc-eBI"/>
@@ -2354,7 +2354,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wqe-dP-72p" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wqe-dP-72p" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="107" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="17L-ij-gdb"/>
@@ -2403,7 +2403,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ksl-60-1S2" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ksl-60-1S2" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="115" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="19" id="JSg-uj-s3A"/>
@@ -2452,7 +2452,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="POq-dE-gsa" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="POq-dE-gsa" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="101" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="2Pt-Bw-FEa"/>
@@ -2501,7 +2501,7 @@
                                                                             <real value="3.4028234663852886e+38"/>
                                                                         </customSpacing>
                                                                     </stackView>
-                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="nyf-lf-cNc" customClass="MASShortcutView">
+                                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="nyf-lf-cNc" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                         <rect key="frame" x="118" y="0.0" width="160" height="19"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="160" id="EoF-fh-9EU"/>
@@ -3068,7 +3068,7 @@
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                             </textField>
-                                                            <customView horizontalHuggingPriority="249" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uca-0m-naE" customClass="MASShortcutView">
+                                                            <customView horizontalHuggingPriority="249" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uca-0m-naE" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                 <rect key="frame" x="102" y="0.0" width="160" height="19"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="19" id="OaK-b4-dxO"/>
@@ -3104,7 +3104,7 @@
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                             </textField>
-                                                            <customView horizontalHuggingPriority="249" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QTZ-pv-mwo" customClass="MASShortcutView">
+                                                            <customView horizontalHuggingPriority="249" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QTZ-pv-mwo" customClass="ShortcutRecorderView" customModule="RectangleShortcuts">
                                                                 <rect key="frame" x="102" y="0.0" width="160" height="19"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="19" id="Prr-fE-EFT"/>

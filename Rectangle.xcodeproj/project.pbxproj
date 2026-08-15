@@ -101,7 +101,7 @@
 		985B9BF522B93EEC00A2E8F0 /* ApplicationToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B9BF422B93EEC00A2E8F0 /* ApplicationToggle.swift */; };
 		985B9BF822BB6F5100A2E8F0 /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 985B9BF622BB6F5000A2E8F0 /* MessageView.xib */; };
 		985B9BF922BB6F5100A2E8F0 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985B9BF722BB6F5000A2E8F0 /* MessageView.swift */; };
-		9877B63A29C8AC0E00F02D74 /* MASShortcut in Frameworks */ = {isa = PBXBuildFile; productRef = 9877B63929C8AC0E00F02D74 /* MASShortcut */; };
+		9877B63A29C8AC0E00F02D74 /* RectangleShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9877B63929C8AC0E00F02D74 /* RectangleShortcuts */; };
 		988D066122EB4C7C004EABD7 /* FirstThirdCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D066022EB4C7C004EABD7 /* FirstThirdCalculation.swift */; };
 		988D066322EB4CA5004EABD7 /* FirstTwoThirdsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D066222EB4CA5004EABD7 /* FirstTwoThirdsCalculation.swift */; };
 		988D066522EB4CB6004EABD7 /* CenterThirdCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D066422EB4CB5004EABD7 /* CenterThirdCalculation.swift */; };
@@ -137,7 +137,7 @@
 		98C6DEF023CE191700CC0C1E /* GapCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C6DEEF23CE191700CC0C1E /* GapCalculation.swift */; };
 		98C97FFD25893B040061F01F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C97FFC25893B040061F01F /* Config.swift */; };
 		98D1441324560B1E0090C603 /* AlertUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D1441224560B1E0090C603 /* AlertUtil.swift */; };
-		98D16A442592AD55005228CB /* MASShortcutMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D16A432592AD55005228CB /* MASShortcutMigration.swift */; };
+		98D16A442592AD55005228CB /* ShortcutMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D16A432592AD55005228CB /* ShortcutMigration.swift */; };
 		98D16A492592B460005228CB /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D16A482592B460005228CB /* NotificationExtension.swift */; };
 		98D4B6C525B6256C009C7BF6 /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D4B6C425B6256C009C7BF6 /* TodoManager.swift */; };
 		98FA9497235A2D7600F95C4F /* RepeatedExecutionsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA9496235A2D7600F95C4F /* RepeatedExecutionsCalculation.swift */; };
@@ -362,7 +362,7 @@
 		98C6DEEF23CE191700CC0C1E /* GapCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GapCalculation.swift; sourceTree = "<group>"; };
 		98C97FFC25893B040061F01F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		98D1441224560B1E0090C603 /* AlertUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtil.swift; sourceTree = "<group>"; };
-		98D16A432592AD55005228CB /* MASShortcutMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MASShortcutMigration.swift; sourceTree = "<group>"; };
+		98D16A432592AD55005228CB /* ShortcutMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutMigration.swift; sourceTree = "<group>"; };
 		98D16A482592B460005228CB /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		98D4B6C425B6256C009C7BF6 /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
 		98FA9496235A2D7600F95C4F /* RepeatedExecutionsCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatedExecutionsCalculation.swift; sourceTree = "<group>"; };
@@ -435,7 +435,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9877B63A29C8AC0E00F02D74 /* MASShortcut in Frameworks */,
+				9877B63A29C8AC0E00F02D74 /* RectangleShortcuts in Frameworks */,
 				9821405E22B3ED3600ABFB3F /* ServiceManagement.framework in Frameworks */,
 				12D896200936C0DE9FF41FB4 /* (null) in Frameworks */,
 			);
@@ -634,7 +634,7 @@
 			children = (
 				9824703A22B139780037B409 /* CUtil.swift */,
 				98D1441224560B1E0090C603 /* AlertUtil.swift */,
-				98D16A432592AD55005228CB /* MASShortcutMigration.swift */,
+				98D16A432592AD55005228CB /* ShortcutMigration.swift */,
 				98D16A482592B460005228CB /* NotificationExtension.swift */,
 				98BEFA472620DEDC00D9D54F /* NSImageExtension.swift */,
 				98192DD9270F606C00015E66 /* Debounce.swift */,
@@ -833,7 +833,7 @@
 			);
 			name = Rectangle;
 			packageProductDependencies = (
-				9877B63929C8AC0E00F02D74 /* MASShortcut */,
+				9877B63929C8AC0E00F02D74 /* RectangleShortcuts */,
 			);
 			productName = Rectangle;
 			productReference = 9824700922AF9B7D0037B409 /* Rectangle.app */;
@@ -937,7 +937,7 @@
 			);
 			mainGroup = 9824700022AF9B7D0037B409;
 			packageReferences = (
-				9877B63829C8AC0E00F02D74 /* XCRemoteSwiftPackageReference "MASShortcut" */,
+		9877B63829C8AC0E00F02D74 /* XCLocalSwiftPackageReference "LocalPackages/RectangleShortcuts" */,
 			);
 			productRefGroup = 9824700A22AF9B7D0037B409 /* Products */;
 			projectDirPath = "";
@@ -1016,7 +1016,7 @@
 				AA0AC004291C48DE00D125D2 /* SequenceExtension.swift in Sources */,
 				985B9BF522B93EEC00A2E8F0 /* ApplicationToggle.swift in Sources */,
 				AA0AC002291C1B9100D125D2 /* AXExtension.swift in Sources */,
-				98D16A442592AD55005228CB /* MASShortcutMigration.swift in Sources */,
+				98D16A442592AD55005228CB /* ShortcutMigration.swift in Sources */,
 				74804F0B2E25521C009F1F7D /* CenterTwoThirdsCalculation.swift in Sources */,
 				988D066522EB4CB6004EABD7 /* CenterThirdCalculation.swift in Sources */,
 				D04CE30827817A9200BD47B3 /* MiddleCenterNinthCalculation.swift in Sources */,
@@ -1551,22 +1551,18 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		9877B63829C8AC0E00F02D74 /* XCRemoteSwiftPackageReference "MASShortcut" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rxhanson/MASShortcut";
-			requirement = {
-				kind = revision;
-				revision = 2f9fbb3f959b7a683c6faaf9638d22afad37a235;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		9877B63829C8AC0E00F02D74 /* XCLocalSwiftPackageReference "LocalPackages/RectangleShortcuts" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/RectangleShortcuts;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9877B63929C8AC0E00F02D74 /* MASShortcut */ = {
+		9877B63929C8AC0E00F02D74 /* RectangleShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9877B63829C8AC0E00F02D74 /* XCRemoteSwiftPackageReference "MASShortcut" */;
-			productName = MASShortcut;
+			package = 9877B63829C8AC0E00F02D74 /* XCLocalSwiftPackageReference "LocalPackages/RectangleShortcuts" */;
+			productName = RectangleShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
