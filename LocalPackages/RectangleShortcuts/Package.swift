@@ -24,7 +24,8 @@ let package = Package(
         ),
         .testTarget(
             name: "RectangleShortcutsTests",
-            dependencies: ["RectangleShortcuts"]
+            dependencies: ["RectangleShortcuts"],
+            resources: [.process("Fixtures")]
         )
     ]
 )

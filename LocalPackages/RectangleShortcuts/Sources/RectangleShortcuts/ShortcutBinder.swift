@@ -2,6 +2,7 @@ import Foundation
 
 public final class ShortcutBinder {
     public static let shared = ShortcutBinder()
+    static let unsupportedPreferencesBackupKey = "RectangleShortcuts.unsupportedShortcutPreferences"
 
     public let shortcutMonitor: HotKeyMonitoring
 
@@ -55,15 +56,31 @@ public final class ShortcutBinder {
         defaultShortcuts.merge(shortcuts) { _, new in new }
 
         isChangingDefaults = true
+        var unsupportedPreferences = userDefaults.dictionary(
+            forKey: Self.unsupportedPreferencesBackupKey
+        ) ?? [:]
+        var didChangeUnsupportedPreferences = false
+
         for (key, shortcut) in shortcuts {
             if let storedValue = userDefaults.object(forKey: key),
                !Self.isExplicitlyCleared(storedValue),
                Self.shortcut(from: storedValue) == nil {
-                // Archived or malformed values are intentionally unsupported.
-                // Removing them exposes Rectangle's registered default.
+                // Preserve unsupported values without decoding them. Keeping them
+                // outside the active key lets Rectangle expose its current default.
+                if unsupportedPreferences[key] == nil {
+                    unsupportedPreferences[key] = storedValue
+                    didChangeUnsupportedPreferences = true
+                }
                 userDefaults.removeObject(forKey: key)
             }
             userDefaults.register(defaults: [key: shortcut.dictionaryRepresentation])
+        }
+
+        if didChangeUnsupportedPreferences {
+            userDefaults.set(
+                unsupportedPreferences,
+                forKey: Self.unsupportedPreferencesBackupKey
+            )
         }
         isChangingDefaults = false
         reloadChangedBindings()
