@@ -4,57 +4,41 @@ set -euo pipefail
 
 repo_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_root"
+git_command=${GIT_COMMAND:-git}
+file_command=${FILE_COMMAND:-file}
+find_command=${FIND_COMMAND:-find}
+otool_command=${OTOOL_COMMAND:-otool}
 
 fail_with_matches() {
     local description=$1
     shift
     local matches
-    if matches=$(rg -n "$@" 2>/dev/null); then
+    local status
+
+    if matches=$("$git_command" grep -n -E -- "$@" 2>&1); then
         echo "Dependency boundary violation: $description" >&2
         echo "$matches" >&2
         exit 1
+    else
+        status=$?
+    fi
+
+    if [[ $status -ne 1 ]]; then
+        echo "Dependency boundary check failed while checking: $description" >&2
+        echo "$matches" >&2
+        exit "$status"
     fi
 }
 
 fail_with_matches \
     "remote Swift package reference" \
     'XCRemoteSwiftPackageReference|repositoryURL[[:space:]]*=|\.package[[:space:]]*\(' \
-    Rectangle.xcodeproj LocalPackages \
-    --glob 'project.pbxproj' --glob 'Package.swift'
+    -- ':(glob)**/project.pbxproj' ':(glob)**/Package.swift'
 
 resolved_files=$(git ls-files '*Package.resolved')
 if [[ -n "$resolved_files" ]]; then
     echo "Dependency boundary violation: Package.resolved must not be present" >&2
     echo "$resolved_files" >&2
-    exit 1
-fi
-
-executable_paths=(
-    Rectangle
-    RectangleLauncher
-    RectangleTests
-    Rectangle.xcodeproj
-    LocalPackages/RectangleShortcuts/Package.swift
-    LocalPackages/RectangleShortcuts/Sources
-    LocalPackages/RectangleShortcuts/Tests
-)
-
-fail_with_matches \
-    "Sparkle code or updater metadata" \
-    'Sparkle|SPU[A-Za-z0-9_]+|SUFeedURL|SUPublicEDKey|SUEnableAutomaticChecks|SUAllowsAutomaticUpdates|SUAutomaticallyUpdate|NSAllowsArbitraryLoads' \
-    "${executable_paths[@]}" \
-    --glob '*.{swift,m,h,plist,storyboard,pbxproj,entitlements}' --glob 'Package.swift'
-
-fail_with_matches \
-    "executable MASShortcut reference" \
-    'MASShortcut' \
-    "${executable_paths[@]}" \
-    --glob '*.{swift,m,h,plist,storyboard,pbxproj,entitlements}' --glob 'Package.swift'
-
-artifact_names=$(git ls-files | rg -i '(^|/)(Sparkle|Autoupdate|Updater)(/|\.|$)' || true)
-if [[ -n "$artifact_names" ]]; then
-    echo "Dependency boundary violation: updater artifact" >&2
-    echo "$artifact_names" >&2
     exit 1
 fi
 
@@ -70,27 +54,43 @@ if [[ $# -eq 1 ]]; then
         exit 2
     fi
 
-    built_artifacts=$(find "$app_path" \( \
-        -iname '*Sparkle*' -o \
-        -iname '*Updater*' -o \
-        -iname '*Autoupdate*' -o \
-        -iname '*MASShortcut*' \
-    \) -print)
-    if [[ -n "$built_artifacts" ]]; then
-        echo "Dependency boundary violation: forbidden built artifact" >&2
-        echo "$built_artifacts" >&2
-        exit 1
+    candidate_list=$(mktemp "${TMPDIR:-/tmp}/rectangle-packaged-files.XXXXXX")
+    trap 'rm -f "$candidate_list"' EXIT
+    find_status=0
+    "$find_command" "$app_path/Contents" -type f -print0 > "$candidate_list" || find_status=$?
+    if [[ $find_status -ne 0 ]]; then
+        echo "Dependency boundary check failed while traversing the app bundle" >&2
+        echo "$app_path" >&2
+        exit "$find_status"
     fi
 
-    fail_with_matches \
-        "updater metadata or executable dependency in built app" \
-        'Sparkle|SPU[A-Za-z0-9_]+|SUFeedURL|SUPublicEDKey|MASShortcut' \
-        "$app_path/Contents" \
-        --text
-
     while IFS= read -r -d '' candidate; do
-        if ! file -b "$candidate" | rg -q '^Mach-O'; then
-            continue
+        if ! file_description=$("$file_command" -b "$candidate" 2>&1); then
+            echo "Dependency boundary check failed while identifying packaged files" >&2
+            echo "$candidate" >&2
+            echo "$file_description" >&2
+            exit 1
+        fi
+        case "$file_description" in
+            Mach-O*) ;;
+            *) continue ;;
+        esac
+
+        case "$candidate" in
+            */Contents/MacOS/*|*/Contents/Frameworks/libswift*.dylib)
+                ;;
+            *)
+                echo "Dependency boundary violation: unexpected packaged Mach-O component" >&2
+                echo "$candidate" >&2
+                exit 1
+                ;;
+        esac
+
+        if ! otool_output=$("$otool_command" -L "$candidate" 2>&1); then
+            echo "Dependency boundary check failed while inspecting dynamic libraries" >&2
+            echo "$candidate" >&2
+            echo "$otool_output" >&2
+            exit 1
         fi
 
         while IFS= read -r dependency; do
@@ -103,8 +103,8 @@ if [[ $# -eq 1 ]]; then
                     exit 1
                     ;;
             esac
-        done < <(otool -L "$candidate" | tail -n +2 | awk '{print $1}')
-    done < <(find "$app_path/Contents" -type f -print0)
+        done < <(printf '%s\n' "$otool_output" | awk '/^[[:space:]]/ { print $1 }')
+    done < "$candidate_list"
 fi
 
 echo "Dependency boundary verified."

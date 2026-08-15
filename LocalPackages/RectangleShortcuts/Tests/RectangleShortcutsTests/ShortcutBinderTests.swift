@@ -77,12 +77,25 @@ final class ShortcutBinderTests: XCTestCase {
 
         XCTAssertTrue(monitor.registrationHistory.isEmpty)
         XCTAssertTrue(monitor.registered.isEmpty)
+        XCTAssertNil(defaults.object(forKey: ShortcutBinder.unsupportedPreferencesBackupKey))
     }
 
-    func testArchivedPreferenceIsIgnoredAndReplacedByRegisteredDefault() {
+    func testArchivedPreferenceIsQuarantinedWithoutDecodingAndDefaultIsRegistered() throws {
         let (suiteName, defaults) = makeDefaults()
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set(Data([0x62, 0x70, 0x6c, 0x69, 0x73, 0x74]), forKey: "testShortcut")
+        let fixtureURL = try XCTUnwrap(
+            Bundle.module.url(
+                forResource: "MASShortcut-v0_40",
+                withExtension: "archive.base64"
+            )
+        )
+        let fixture = try XCTUnwrap(
+            Data(
+                base64Encoded: String(contentsOf: fixtureURL),
+                options: .ignoreUnknownCharacters
+            )
+        )
+        defaults.set(fixture, forKey: "testShortcut")
         let monitor = FakeHotKeyMonitor()
         let binder = ShortcutBinder(
             userDefaults: defaults,
@@ -95,12 +108,46 @@ final class ShortcutBinderTests: XCTestCase {
         binder.bindShortcut(withDefaultsKey: "testShortcut", toAction: {})
 
         XCTAssertTrue(monitor.isShortcutRegistered(defaultShortcut))
+        XCTAssertNil(
+            defaults.persistentDomain(forName: suiteName)?["testShortcut"]
+        )
         XCTAssertEqual(
             KeyboardShortcut(
                 dictionaryRepresentation: defaults.dictionary(forKey: "testShortcut") ?? [:]
             ),
             defaultShortcut
         )
+        let backup = try XCTUnwrap(
+            defaults.dictionary(forKey: ShortcutBinder.unsupportedPreferencesBackupKey)
+        )
+        XCTAssertEqual(backup["testShortcut"] as? Data, fixture)
+
+        defaults.set(Data([0x01, 0x02, 0x03]), forKey: "testShortcut")
+        binder.registerDefaultShortcuts(["testShortcut": defaultShortcut])
+
+        let unchangedBackup = try XCTUnwrap(
+            defaults.dictionary(forKey: ShortcutBinder.unsupportedPreferencesBackupKey)
+        )
+        XCTAssertEqual(unchangedBackup["testShortcut"] as? Data, fixture)
+    }
+
+    func testCurrentDictionaryPreferenceIsNotQuarantined() {
+        let (suiteName, defaults) = makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let currentShortcut = shortcut(kVK_ANSI_T)
+        defaults.set(currentShortcut.dictionaryRepresentation, forKey: "testShortcut")
+        let monitor = FakeHotKeyMonitor()
+        let binder = ShortcutBinder(
+            userDefaults: defaults,
+            shortcutMonitor: monitor,
+            notificationCenter: NotificationCenter()
+        )
+
+        binder.registerDefaultShortcuts(["testShortcut": shortcut(kVK_ANSI_R)])
+        binder.bindShortcut(withDefaultsKey: "testShortcut", toAction: {})
+
+        XCTAssertTrue(monitor.isShortcutRegistered(currentShortcut))
+        XCTAssertNil(defaults.object(forKey: ShortcutBinder.unsupportedPreferencesBackupKey))
     }
 
     func testDefaultsChangeAutomaticallyRebindsShortcut() {
