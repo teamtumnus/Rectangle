@@ -3,7 +3,7 @@
 import Cocoa
 
 class Defaults {
-    static let launchOnLogin = BoolDefault(key: "launchOnLogin", defaultValue: true)
+    static let launchOnLogin = BoolDefault(key: "launchOnLogin")
     static let disabledApps = StringDefault(key: "disabledApps")
     static let hideMenuBarIcon = BoolDefault(key: "hideMenubarIcon")
     static let alternateDefaultShortcuts = BoolDefault(key: "alternateDefaultShortcuts") // switch to magnet defaults
