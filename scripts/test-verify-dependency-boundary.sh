@@ -7,15 +7,15 @@ verification_script="$repo_root/scripts/verify-dependency-boundary.sh"
 test_directory=$(mktemp -d "${TMPDIR:-/tmp}/rectangle-dependency-check.XXXXXX")
 trap 'rm -rf "$test_directory"' EXIT
 
-fake_rg="$test_directory/rg-error"
-printf '#!/bin/bash\nexit 2\n' > "$fake_rg"
-chmod +x "$fake_rg"
+fake_git="$test_directory/git-error"
+printf '#!/bin/bash\nexit 2\n' > "$fake_git"
+chmod +x "$fake_git"
 
 status=0
-output=$(RG_COMMAND="$fake_rg" bash "$verification_script" 2>&1) || status=$?
+output=$(GIT_COMMAND="$fake_git" bash "$verification_script" 2>&1) || status=$?
 
 if [[ $status -ne 2 ]]; then
-    echo "Expected dependency verification to preserve rg exit status 2; got $status" >&2
+    echo "Expected dependency verification to preserve scanner exit status 2; got $status" >&2
     echo "$output" >&2
     exit 1
 fi

@@ -4,7 +4,7 @@ set -euo pipefail
 
 repo_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_root"
-rg_command=${RG_COMMAND:-rg}
+git_command=${GIT_COMMAND:-git}
 
 fail_with_matches() {
     local description=$1
@@ -12,7 +12,7 @@ fail_with_matches() {
     local matches
     local status
 
-    if matches=$("$rg_command" -n "$@" 2>&1); then
+    if matches=$("$git_command" grep -n -E -- "$@" 2>&1); then
         echo "Dependency boundary violation: $description" >&2
         echo "$matches" >&2
         exit 1
@@ -30,8 +30,7 @@ fail_with_matches() {
 fail_with_matches \
     "remote Swift package reference" \
     'XCRemoteSwiftPackageReference|repositoryURL[[:space:]]*=|\.package[[:space:]]*\(' \
-    Rectangle.xcodeproj LocalPackages \
-    --glob 'project.pbxproj' --glob 'Package.swift'
+    -- 'Rectangle.xcodeproj/**/project.pbxproj' 'LocalPackages/**/Package.swift'
 
 resolved_files=$(git ls-files '*Package.resolved')
 if [[ -n "$resolved_files" ]]; then
