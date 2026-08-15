@@ -1,6 +1,6 @@
 # Security Policy
 
-Rectangle is maintained by a single developer. While I take security seriously, I appreciate your patience and responsible disclosure to help protect Rectangle users.
+This Rectangle fork is maintained by its repository maintainers and community.
 
 ## Supported Versions
 
@@ -18,17 +18,20 @@ Rectangle requires **macOS Accessibility Permissions** (`AXUIElement`) to manage
 * **Local Only:** Rectangle runs entirely locally. It never collects, logs, or transmits window layouts, keystrokes, or personal data.
 * **Network Access:** This fork contains no built-in update checker and does not require network access for normal operation.
 
-## Reporting a Vulneraging / Contact
+## Reporting a Vulnerability
 
-**Please do not open a public GitHub issue or discussion for security bugs.**
+Please do not disclose vulnerabilities publicly before the maintainers have had
+an opportunity to investigate them.
 
-If you find a vulnerability, please report it privately:
+For sensitive reports, use [GitHub private vulnerability reporting](https://github.com/teamtumnus/Rectangle/security/advisories/new).
+If you already have a private communication channel with a repository maintainer,
+you may use that instead.
 
-* **Email:** ryan@ryanhanson.dev
+For non-sensitive security improvements or questions, open a
+[GitHub issue](https://github.com/teamtumnus/Rectangle/issues/new) or submit a
+[pull request](https://github.com/teamtumnus/Rectangle/compare).
 
 ### Please Include:
 1. A brief description of the issue and potential impact.
 2. Step-by-step instructions (or a proof-of-concept script) to reproduce it.
 3. Your version of Rectangle and macOS.
-
-I will review your report and respond within 48 hours to coordinate a patch and public disclosure.
