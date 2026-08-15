@@ -141,6 +141,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func checkForConflictingApps() {
         let conflictingAppsIds: [String: String] = [
+            "com.knollsoft.Rectangle": "Rectangle",
             "com.divisiblebyzero.Spectacle": "Spectacle",
             "com.crowdcafe.windowmagnet": "Magnet",
             "com.hegenberg.BetterSnapTool": "BetterSnapTool",
