@@ -1,3 +1,5 @@
+// Modified Swift adaptation of MASShortcut. See MASShortcut-LICENSE.txt.
+
 import Foundation
 
 public final class ShortcutBinder {

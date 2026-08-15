@@ -1,3 +1,5 @@
+// Modified Swift adaptation of MASShortcut. See MASShortcut-LICENSE.txt.
+
 import AppKit
 import Carbon.HIToolbox
 import Foundation

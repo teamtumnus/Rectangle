@@ -4,6 +4,20 @@ import XCTest
 @testable import RectangleShortcuts
 
 final class KeyboardShortcutTests: XCTestCase {
+    func testMASShortcutLicenseIsBundledWithTheLibrary() throws {
+        let licenseURL = try XCTUnwrap(
+            RectangleShortcutsResources.bundle.url(
+                forResource: "MASShortcut-LICENSE",
+                withExtension: "txt"
+            )
+        )
+        let license = try String(contentsOf: licenseURL)
+
+        XCTAssertTrue(license.contains("Copyright (c) 2012-2013, Vadim Shpakovski"))
+        XCTAssertTrue(license.contains("Redistributions in binary form"))
+        XCTAssertTrue(license.contains("modified Swift adaptation of MASShortcut"))
+    }
+
     func testDictionaryRepresentationUsesExistingRectangleFormat() throws {
         let shortcut = KeyboardShortcut(
             keyCode: kVK_ANSI_R,

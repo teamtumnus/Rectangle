@@ -201,7 +201,7 @@ Due to the addition of the Liquid Glass icon with a fallback for older versions 
 
 ## Credits
 
-This fork is based on [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) and preserves its MIT license and community attribution. Shortcut-recorder translations derived from MASShortcut retain their BSD license notice in `LocalPackages/RectangleShortcuts/LICENSE-MASShortcut-Translations`; no MASShortcut executable code or external package is included.
+This fork is based on [rxhanson/Rectangle](https://github.com/rxhanson/Rectangle) and preserves its MIT license and community attribution. `RectangleShortcuts` is an in-repository, modified Swift adaptation of [MASShortcut](https://github.com/rxhanson/MASShortcut/tree/2f9fbb3f959b7a683c6faaf9638d22afad37a235); its implementation and localizations retain the bundled BSD license notice. MASShortcut is not linked as an external package.
 
 The Big Sur variant of the Rectangle app icon was created by Giovanni Maria Cusaro (@gmcusaro). The Liquid Glass variant of the app icon was created by [Alexander Käßner](https://www.alexkaessner.de) (@alexkaessner).
 
