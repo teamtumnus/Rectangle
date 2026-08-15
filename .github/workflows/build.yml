@@ -23,6 +23,12 @@ jobs:
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Test local shortcut package
       run: swift test --package-path LocalPackages/RectangleShortcuts
+    - name: Test launch-on-login preferences without launching Rectangle
+      run: >-
+        xcodebuild -project "$XCODE_PROJECT" -scheme "RectangleLaunchOnLoginTests"
+        -configuration Debug -destination "platform=macOS"
+        -derivedDataPath "$RUNNER_TEMP/RectangleLaunchOnLoginTests"
+        CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test
     - name: Test dependency boundary error handling
       run: bash scripts/test-verify-dependency-boundary.sh
     - name: Verify dependency boundary
