@@ -1,7 +1,7 @@
 /// ReverseAllManager.swift
 
 import Cocoa
-import MASShortcut
+import RectangleShortcuts
 
 class ReverseAllManager {
 

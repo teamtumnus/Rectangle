@@ -1,7 +1,6 @@
 /// AppDelegate.swift
 
 import Cocoa
-import Sparkle
 import ServiceManagement
 import os.log
 
@@ -13,13 +12,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let accessibilityAuthorization = AccessibilityAuthorization()
     private let statusItem = RectangleStatusItem.instance
     static let windowHistory = WindowHistory()
-    var updaterController: SPUStandardUpdaterController!
-    var hasPendingUpdate = false {
-        didSet {
-            Notification.Name.updateAvailability.post()
-        }
-    }
-
     private var shortcutManager: ShortcutManager!
     private var windowManager: WindowManager!
     private var applicationToggle: ApplicationToggle!
@@ -40,7 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var unauthorizedMenu: NSMenu!
     @IBOutlet weak var ignoreMenuItem: NSMenuItem!
     @IBOutlet weak var viewLoggingMenuItem: NSMenuItem!
-    @IBOutlet weak var updatesMenuItem: NSMenuItem!
     @IBOutlet weak var quitMenuItem: NSMenuItem!
     
     static var instance: AppDelegate {
@@ -78,12 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(rebuildMenu), name: .showAdditionalSizesInMenuChanged, object: nil)
 
-        updaterController = SPUStandardUpdaterController(updaterDelegate: nil, userDriverDelegate: self)
-        
-        checkAutoCheckForUpdates()
-        
         Notification.Name.configImported.onPost(using: { _ in
-            self.checkAutoCheckForUpdates()
             self.statusItem.refreshVisibility()
             self.applicationToggle.reloadFromDefaults()
             self.shortcutManager.reloadFromDefaults()
@@ -104,9 +90,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let currentVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         if let lastVersion = Defaults.lastVersion.value,
            let intLastVersion = Int(lastVersion) {
-            if intLastVersion < 46 {
-                MASShortcutMigration.migrate()
-            }
             if intLastVersion < 64 {
                 SnapAreaModel.instance.migrate()
             }
@@ -119,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Defaults.installVersion.value = currentVersion
             Defaults.allowAnyShortcut.enabled = true
         }
-        MASShortcutMigration.syncRenamedSideShortcutAliases()
+        ShortcutMigration.syncRenamedSideShortcutAliases()
         
         Defaults.lastVersion.value = currentVersion
     }
@@ -136,18 +119,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 item.image = NSImage(systemSymbolName: "gear", accessibilityDescription: nil)
             case #selector(viewLogging):
                 item.image = NSImage(systemSymbolName: "doc.text", accessibilityDescription: nil)
-            case #selector(checkForUpdates):
-                item.image = NSImage(systemSymbolName: "arrow.down.circle", accessibilityDescription: nil)
             default:
                 break
             }
         }
     }
 
-    func checkAutoCheckForUpdates() {
-        updaterController.updater.automaticallyChecksForUpdates = Defaults.SUEnableAutomaticChecks.enabled
-    }
-    
     func accessibilityTrusted() {
         self.windowCalculationFactory = WindowCalculationFactory()
         self.windowManager = WindowManager()
@@ -284,10 +261,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @IBAction func checkForUpdates(_ sender: Any) {
-        updaterController.checkForUpdates(sender)
-    }
-    
     @IBAction func authorizeAccessibility(_ sender: Any) {
         accessibilityAuthorization.showAuthorizationWindow()
     }
@@ -304,10 +277,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let killNotification = Notification.Name("killLauncher")
                 DistributedNotificationCenter.default().post(name: killNotification, object: Bundle.main.bundleIdentifier!)
             }
-            if !Defaults.SUHasLaunchedBefore {
-                Defaults.launchOnLogin.enabled = true
-            }
-            
             // Even if we are already set up to launch on login, setting it again since macOS can be buggy with this type of launch on login.
             if Defaults.launchOnLogin.enabled {
                 let smLoginSuccess = SMLoginItemSetEnabled(AppDelegate.launcherAppId as CFString, true)
@@ -695,27 +664,5 @@ extension AppDelegate {
                 }
             }
         }
-    }
-}
-
-extension AppDelegate: SPUStandardUserDriverDelegate {
-    
-    var supportsGentleScheduledUpdateReminders: Bool {
-        true
-    }
-
-    func standardUserDriverShouldHandleShowingScheduledUpdate(_ update: SUAppcastItem, andInImmediateFocus immediateFocus: Bool) -> Bool {
-        if immediateFocus {
-            return true
-        }
-        
-        self.hasPendingUpdate = true
-        updatesMenuItem.title = "Update Available…".localized
-        return false
-    }
-    
-    func standardUserDriverWillFinishUpdateSession() {
-        self.hasPendingUpdate = false
-        updatesMenuItem.title = "Check for Updates…".localized(key: "HIK-3r-i7E.title")
     }
 }

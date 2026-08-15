@@ -1,7 +1,8 @@
 /// TodoManager.swift
 
 import Cocoa
-import MASShortcut
+import Carbon.HIToolbox
+import RectangleShortcuts
 
 class TodoManager {
     private static var todoWindowId: CGWindowID?
@@ -21,23 +22,17 @@ class TodoManager {
 
     static func initToggleShortcut() {
         if UserDefaults.standard.dictionary(forKey: toggleDefaultsKey) == nil {
-            guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
-            
-            let toggleShortcut = MASShortcut(keyCode: kVK_ANSI_B,
+            let toggleShortcut = KeyboardShortcut(keyCode: kVK_ANSI_B,
                                              modifierFlags: [NSEvent.ModifierFlags.control, NSEvent.ModifierFlags.option])
-            let toggleShortcutDict = dictTransformer.reverseTransformedValue(toggleShortcut)
-            UserDefaults.standard.set(toggleShortcutDict, forKey: toggleDefaultsKey)
+            UserDefaults.standard.set(toggleShortcut.dictionaryRepresentation, forKey: toggleDefaultsKey)
         }
     }
     
     static func initReflowShortcut() {
         if UserDefaults.standard.dictionary(forKey: reflowDefaultsKey) == nil {
-            guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
-            
-            let reflowShortcut = MASShortcut(keyCode: kVK_ANSI_N,
+            let reflowShortcut = KeyboardShortcut(keyCode: kVK_ANSI_N,
                                              modifierFlags: [NSEvent.ModifierFlags.control, NSEvent.ModifierFlags.option])
-            let reflowShortcutDict = dictTransformer.reverseTransformedValue(reflowShortcut)
-            UserDefaults.standard.set(reflowShortcutDict, forKey: reflowDefaultsKey)
+            UserDefaults.standard.set(reflowShortcut.dictionaryRepresentation, forKey: reflowDefaultsKey)
         }
     }
     
@@ -47,7 +42,7 @@ class TodoManager {
             return
         }
 
-        MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: toggleDefaultsKey, toAction: {
+        ShortcutBinder.shared.bindShortcut(withDefaultsKey: toggleDefaultsKey, toAction: {
             let enabled = !Defaults.todoMode.enabled
             setTodoMode(enabled)
         })
@@ -59,17 +54,17 @@ class TodoManager {
             return
         }
 
-        MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: reflowDefaultsKey, toAction: {
+        ShortcutBinder.shared.bindShortcut(withDefaultsKey: reflowDefaultsKey, toAction: {
             moveAll()
         })
     }
     
     private static func unregisterToggleShortcut() {
-        MASShortcutBinder.shared()?.breakBinding(withDefaultsKey: toggleDefaultsKey)
+        ShortcutBinder.shared.breakBinding(withDefaultsKey: toggleDefaultsKey)
     }
     
     private static func unregisterReflowShortcut() {
-        MASShortcutBinder.shared()?.breakBinding(withDefaultsKey: reflowDefaultsKey)
+        ShortcutBinder.shared.breakBinding(withDefaultsKey: reflowDefaultsKey)
     }
     
     static func registerUnregisterToggleShortcut() {
@@ -113,15 +108,9 @@ class TodoManager {
         return TodoShortcutConflict.conflict(for: shortcut, ignoringTodoDefaultsKey: defaultsKey) == nil
     }
 
-    private static func shortcut(for defaultsKey: String, userDefaults: UserDefaults = .standard) -> MASShortcut? {
-        guard
-            let shortcutDict = userDefaults.dictionary(forKey: defaultsKey),
-            let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)),
-            let shortcut = dictTransformer.transformedValue(shortcutDict) as? MASShortcut
-        else {
-            return nil
-        }
-        return shortcut
+    private static func shortcut(for defaultsKey: String, userDefaults: UserDefaults = .standard) -> KeyboardShortcut? {
+        guard let shortcutDict = userDefaults.dictionary(forKey: defaultsKey) else { return nil }
+        return KeyboardShortcut(dictionaryRepresentation: shortcutDict)
     }
 
     static func getToggleKeyDisplay() -> (String?, NSEvent.ModifierFlags)? {
@@ -303,7 +292,7 @@ struct TodoShortcutConflict {
 
     let shortcutName: String
 
-    static func conflict(for shortcut: MASShortcut,
+    static func conflict(for shortcut: KeyboardShortcut,
                          ignoringTodoDefaultsKey ignoredDefaultsKey: String,
                          userDefaults: UserDefaults = .standard) -> TodoShortcutConflict? {
         let identity = ShortcutCycle.ShortcutIdentity(shortcut)
@@ -339,7 +328,7 @@ struct TodoShortcutConflict {
     }
 }
 
-class TodoShortcutValidator: MASShortcutValidator {
+class TodoShortcutValidator: ShortcutValidator {
 
     private let defaultsKey: String
     private let userDefaults: UserDefaults
@@ -350,20 +339,16 @@ class TodoShortcutValidator: MASShortcutValidator {
         super.init()
     }
 
-    override func isShortcutValid(_ shortcut: MASShortcut!) -> Bool {
+    override func isShortcutValid(_ shortcut: KeyboardShortcut) -> Bool {
         guard super.isShortcutValid(shortcut) else { return false }
 
         // Preserve previous behavior by rejecting Rectangle-internal conflicts quietly,
-        // without routing them through MASShortcut's "already used" alert.
+        // without routing them through the recorder's "already used" alert.
         return TodoShortcutConflict.conflict(for: shortcut,
                                              ignoringTodoDefaultsKey: defaultsKey,
                                              userDefaults: userDefaults) == nil
     }
 
-    override func isShortcutAlreadyTaken(bySystem shortcut: MASShortcut!,
-                                         explanation: AutoreleasingUnsafeMutablePointer<NSString?>!) -> Bool {
-        return super.isShortcutAlreadyTaken(bySystem: shortcut, explanation: explanation)
-    }
 }
 
 enum TodoSidebarSide: Int {

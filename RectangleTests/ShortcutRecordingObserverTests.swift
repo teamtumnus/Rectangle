@@ -1,22 +1,21 @@
 /// ShortcutRecordingObserverTests.swift
 
-import MASShortcut
+import Carbon.HIToolbox
+import RectangleShortcuts
 import XCTest
 @testable import Rectangle
 
 class ShortcutRecordingObserverTests: XCTestCase {
 
     private func withRegisteredTodoShortcuts(
-        _ assertions: (MASShortcutMonitor, MASShortcut, MASShortcut) throws -> Void
+        _ assertions: (HotKeyMonitoring, KeyboardShortcut, KeyboardShortcut) throws -> Void
     ) throws {
         let userDefaults = UserDefaults.standard
         let previousToggleShortcut = userDefaults.object(forKey: TodoManager.toggleDefaultsKey)
         let previousReflowShortcut = userDefaults.object(forKey: TodoManager.reflowDefaultsKey)
         let previousTodoEnabled = Defaults.todo.enabled
         let previousTodoModeEnabled = Defaults.todoMode.enabled
-        let binder = try XCTUnwrap(MASShortcutBinder.shared())
-        let previousBindingOptions = binder.bindingOptions
-        binder.bindingOptions = [NSBindingOption.valueTransformerName: MASDictionaryTransformerName]
+        let binder = ShortcutBinder.shared
 
         TodoManager.setShortcutBindingsSuspended(true)
         TodoManager.setShortcutBindingsSessionActive(true)
@@ -38,21 +37,17 @@ class ShortcutRecordingObserverTests: XCTestCase {
             Defaults.todo.enabled = previousTodoEnabled
             Defaults.todoMode.enabled = previousTodoModeEnabled
             TodoManager.setShortcutBindingsSuspended(false)
-            binder.bindingOptions = previousBindingOptions
         }
 
-        let monitor = try XCTUnwrap(binder.shortcutMonitor)
+        let monitor = binder.shortcutMonitor
         let shortcuts = try availableTodoShortcuts(monitor: monitor)
-        let transformer = try XCTUnwrap(
-            ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))
-        )
 
         userDefaults.set(
-            transformer.reverseTransformedValue(shortcuts.toggle),
+            shortcuts.toggle.dictionaryRepresentation,
             forKey: TodoManager.toggleDefaultsKey
         )
         userDefaults.set(
-            transformer.reverseTransformedValue(shortcuts.reflow),
+            shortcuts.reflow.dictionaryRepresentation,
             forKey: TodoManager.reflowDefaultsKey
         )
         Defaults.todo.enabled = true
@@ -66,8 +61,8 @@ class ShortcutRecordingObserverTests: XCTestCase {
     }
 
     private func availableTodoShortcuts(
-        monitor: MASShortcutMonitor
-    ) throws -> (toggle: MASShortcut, reflow: MASShortcut) {
+        monitor: HotKeyMonitoring
+    ) throws -> (toggle: KeyboardShortcut, reflow: KeyboardShortcut) {
         let modifiers: NSEvent.ModifierFlags = [.command, .control, .option, .shift]
         let keyCodes = [
             kVK_ANSI_U,
@@ -83,7 +78,7 @@ class ShortcutRecordingObserverTests: XCTestCase {
             ShortcutCycle.shortcutsByAction().values.map { ShortcutCycle.ShortcutIdentity($0) }
         )
         let availableShortcuts = keyCodes
-            .map { MASShortcut(keyCode: $0, modifierFlags: modifiers) }
+            .map { KeyboardShortcut(keyCode: $0, modifierFlags: modifiers) }
             .filter {
                 !windowShortcutIdentities.contains(ShortcutCycle.ShortcutIdentity($0))
                     && !monitor.isShortcutRegistered($0)
@@ -96,8 +91,8 @@ class ShortcutRecordingObserverTests: XCTestCase {
 
     func testPostsRecordingChangesForObservedShortcutViews() {
         let observer = ShortcutRecordingObserver()
-        let firstShortcutView = MASShortcutView()
-        let secondShortcutView = MASShortcutView()
+        let firstShortcutView = ShortcutRecorderView()
+        let secondShortcutView = ShortcutRecorderView()
         var recordingChanges = [Bool]()
         let notificationObserver = NotificationCenter.default.addObserver(
             forName: .shortcutRecording,
@@ -124,7 +119,7 @@ class ShortcutRecordingObserverTests: XCTestCase {
 
     func testObservingSameShortcutViewTwiceDoesNotDuplicateNotifications() {
         let observer = ShortcutRecordingObserver()
-        let shortcutView = MASShortcutView()
+        let shortcutView = ShortcutRecorderView()
         var recordingChanges = [Bool]()
         let notificationObserver = NotificationCenter.default.addObserver(
             forName: .shortcutRecording,
@@ -149,8 +144,8 @@ class ShortcutRecordingObserverTests: XCTestCase {
 
     func testOverlappingShortcutRecordingsStayActiveUntilAllViewsStopRecording() {
         let observer = ShortcutRecordingObserver()
-        let firstShortcutView = MASShortcutView()
-        let secondShortcutView = MASShortcutView()
+        let firstShortcutView = ShortcutRecorderView()
+        let secondShortcutView = ShortcutRecorderView()
         var recordingChanges = [Bool]()
         let notificationObserver = NotificationCenter.default.addObserver(
             forName: .shortcutRecording,

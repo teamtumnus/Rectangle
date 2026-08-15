@@ -1,7 +1,7 @@
 /// MultiWindowManager.swift
 
 import Cocoa
-import MASShortcut
+import RectangleShortcuts
 
 class MultiWindowManager {
     static func execute(parameters: ExecutionParameters) -> Bool {

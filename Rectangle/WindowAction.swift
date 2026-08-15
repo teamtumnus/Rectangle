@@ -3,7 +3,7 @@
 import Foundation
 import Carbon
 import Cocoa
-import MASShortcut
+import RectangleShortcuts
 
 fileprivate let alt = NSEvent.ModifierFlags.option.rawValue
 fileprivate let ctrl = NSEvent.ModifierFlags.control.rawValue
@@ -1199,17 +1199,17 @@ struct Shortcut: Codable {
         self.modifierFlags = modifierFlags
     }
     
-    init(masShortcut: MASShortcut) {
-        self.keyCode = masShortcut.keyCode
-        self.modifierFlags = masShortcut.modifierFlags.rawValue
+    init(keyboardShortcut: KeyboardShortcut) {
+        self.keyCode = keyboardShortcut.keyCode
+        self.modifierFlags = keyboardShortcut.modifierFlags.rawValue
     }
     
-    func toMASSHortcut() -> MASShortcut {
-        MASShortcut(keyCode: keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: modifierFlags))
+    func toKeyboardShortcut() -> KeyboardShortcut {
+        KeyboardShortcut(keyCode: keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: modifierFlags))
     }
     
     func displayString() -> String {
-        let masShortcut = toMASSHortcut()
-        return masShortcut.modifierFlagsString + (masShortcut.keyCodeString ?? "")
+        let keyboardShortcut = toKeyboardShortcut()
+        return keyboardShortcut.modifierFlagsString + (keyboardShortcut.keyCodeString ?? "")
     }
 }

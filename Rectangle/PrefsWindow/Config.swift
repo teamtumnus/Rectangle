@@ -1,7 +1,7 @@
 /// Config.swift
 
 import Foundation
-import MASShortcut
+import RectangleShortcuts
 
 extension Defaults {
     static func encoded() -> String? {
@@ -9,19 +9,15 @@ extension Defaults {
         
         var shortcuts = [String: Shortcut]()
         for action in WindowAction.active {
-            if let masShortcut = ShortcutCycle.shortcut(for: action) {
-                shortcuts[action.name] = Shortcut(masShortcut: masShortcut)
+            if let keyboardShortcut = ShortcutCycle.shortcut(for: action) {
+                shortcuts[action.name] = Shortcut(keyboardShortcut: keyboardShortcut)
             }
         }
         for defaultsKey in TodoManager.defaultsKeys {
-            guard
-                let shortcutDict = UserDefaults.standard.dictionary(forKey: defaultsKey),
-                let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)),
-                let shortcut = dictTransformer.transformedValue(shortcutDict) as? MASShortcut
-            else {
-                continue
-            }
-            shortcuts[defaultsKey] = Shortcut(masShortcut: shortcut)
+            guard let shortcutDict = UserDefaults.standard.dictionary(forKey: defaultsKey),
+                  let shortcut = KeyboardShortcut(dictionaryRepresentation: shortcutDict)
+            else { continue }
+            shortcuts[defaultsKey] = Shortcut(keyboardShortcut: shortcut)
         }
         
         var codableDefaults = [String: CodableDefault]()
@@ -54,8 +50,6 @@ extension Defaults {
     }
     
     static func load(fileUrl: URL, notificationCenter: NotificationCenter = .default) {
-        guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
-        
         // Size cap: legitimate configs are ~tens of KB; refuse anything that
         // looks abusive (defense against OOM via a giant config file).
         if let attrs = try? FileManager.default.attributesOfItem(atPath: fileUrl.path),
@@ -75,18 +69,16 @@ extension Defaults {
         for action in WindowAction.active {
             let importedShortcut = config.shortcuts[action.name] ?? action.aliasName.flatMap { config.shortcuts[$0] }
             if let importedShortcut, importedShortcut.keyCode >= 0 {
-                let shortcut = importedShortcut.toMASSHortcut()
-                let dictValue = dictTransformer.reverseTransformedValue(shortcut)
-                UserDefaults.standard.setValue(dictValue, forKey: action.name)
+                let shortcut = importedShortcut.toKeyboardShortcut()
+                UserDefaults.standard.setValue(shortcut.dictionaryRepresentation, forKey: action.name)
             } else {
                 UserDefaults.standard.removeObject(forKey: action.name)
             }
         }
         for defaultsKey in TodoManager.defaultsKeys {
             if let importedShortcut = config.shortcuts[defaultsKey], importedShortcut.keyCode >= 0 {
-                let shortcut = importedShortcut.toMASSHortcut()
-                let dictValue = dictTransformer.reverseTransformedValue(shortcut)
-                UserDefaults.standard.setValue(dictValue, forKey: defaultsKey)
+                let shortcut = importedShortcut.toKeyboardShortcut()
+                UserDefaults.standard.setValue(shortcut.dictionaryRepresentation, forKey: defaultsKey)
             } else {
                 UserDefaults.standard.removeObject(forKey: defaultsKey)
             }

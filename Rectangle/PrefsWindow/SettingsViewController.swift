@@ -2,8 +2,7 @@
 
 import Cocoa
 import ServiceManagement
-import Sparkle
-import MASShortcut
+import RectangleShortcuts
 
 class SettingsViewController: NSViewController {
         
@@ -12,8 +11,6 @@ class SettingsViewController: NSViewController {
     @IBOutlet weak var hideMenuBarIconCheckbox: NSButton!
     @IBOutlet weak var subsequentExecutionPopUpButton: NSPopUpButton!
     @IBOutlet weak var allowAnyShortcutCheckbox: NSButton!
-    @IBOutlet weak var checkForUpdatesAutomaticallyCheckbox: NSButton!
-    @IBOutlet weak var checkForUpdatesButton: NSButton!
     @IBOutlet weak var gapSlider: NSSlider!
     @IBOutlet weak var gapLabel: NSTextField!
     @IBOutlet weak var skipGapTopEdgeCheckbox: NSButton!
@@ -25,8 +22,8 @@ class SettingsViewController: NSViewController {
     @IBOutlet weak var todoAppWidthField: AutoSaveFloatField!
     @IBOutlet weak var todoAppWidthUnitPopUpButton: NSPopUpButton!
     @IBOutlet weak var todoAppSidePopUpButton: NSPopUpButton!
-    @IBOutlet weak var toggleTodoShortcutView: MASShortcutView!
-    @IBOutlet weak var reflowTodoShortcutView: MASShortcutView!
+    @IBOutlet weak var toggleTodoShortcutView: ShortcutRecorderView!
+    @IBOutlet weak var reflowTodoShortcutView: ShortcutRecorderView!
     @IBOutlet weak var stageView: NSStackView!
     @IBOutlet weak var stageSlider: NSSlider!
     @IBOutlet weak var stageLabel: NSTextField!
@@ -139,10 +136,6 @@ class SettingsViewController: NSViewController {
 
     @objc func toggleCooperativeCornerResize(_ sender: NSButton) {
         Defaults.cooperativeCornerResize.enabled = sender.state == .on
-    }
-    
-    @IBAction func checkForUpdates(_ sender: Any) {
-        AppDelegate.instance.updaterController?.checkForUpdates(sender)
     }
     
     @IBAction func toggleDoubleClickTitleBar(_ sender: NSButton) {
@@ -362,23 +355,23 @@ class SettingsViewController: NSViewController {
             bottomCenterRightEighthLabel.translatesAutoresizingMaskIntoConstraints = false
             bottomRightEighthLabel.translatesAutoresizingMaskIntoConstraints = false
 
-            let largerWidthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let smallerWidthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let largerWidthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let smallerWidthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
             
-            let topVerticalThirdShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let middleVerticalThirdShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomVerticalThirdShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let topVerticalTwoThirdsShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomVerticalTwoThirdsShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topVerticalThirdShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let middleVerticalThirdShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomVerticalThirdShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topVerticalTwoThirdsShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomVerticalTwoThirdsShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
 
-            let topLeftEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let topCenterLeftEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let topCenterRightEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let topRightEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomLeftEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomCenterLeftEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomCenterRightEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let bottomRightEighthShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topLeftEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topCenterLeftEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topCenterRightEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let topRightEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomLeftEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomCenterLeftEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomCenterRightEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let bottomRightEighthShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
 
             let widthStepField = AutoSaveFloatField(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
             widthStepField.stringValue = String(Int(Defaults.widthStepSize.value))
@@ -454,23 +447,23 @@ class SettingsViewController: NSViewController {
                 vSplitPopUpButton?.selectCurrentValue()
             }
 
-            largerWidthShortcutView.setAssociatedUserDefaultsKey(WindowAction.largerWidth.name, withTransformerName: MASDictionaryTransformerName)
-            smallerWidthShortcutView.setAssociatedUserDefaultsKey(WindowAction.smallerWidth.name, withTransformerName: MASDictionaryTransformerName)
+            largerWidthShortcutView.bind(toUserDefaultsKey: WindowAction.largerWidth.name)
+            smallerWidthShortcutView.bind(toUserDefaultsKey: WindowAction.smallerWidth.name)
             
-            topVerticalThirdShortcutView.setAssociatedUserDefaultsKey(WindowAction.topVerticalThird.name, withTransformerName: MASDictionaryTransformerName)
-            middleVerticalThirdShortcutView.setAssociatedUserDefaultsKey(WindowAction.middleVerticalThird.name, withTransformerName: MASDictionaryTransformerName)
-            bottomVerticalThirdShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomVerticalThird.name, withTransformerName: MASDictionaryTransformerName)
-            topVerticalTwoThirdsShortcutView.setAssociatedUserDefaultsKey(WindowAction.topVerticalTwoThirds.name, withTransformerName: MASDictionaryTransformerName)
-            bottomVerticalTwoThirdsShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomVerticalTwoThirds.name, withTransformerName: MASDictionaryTransformerName)
+            topVerticalThirdShortcutView.bind(toUserDefaultsKey: WindowAction.topVerticalThird.name)
+            middleVerticalThirdShortcutView.bind(toUserDefaultsKey: WindowAction.middleVerticalThird.name)
+            bottomVerticalThirdShortcutView.bind(toUserDefaultsKey: WindowAction.bottomVerticalThird.name)
+            topVerticalTwoThirdsShortcutView.bind(toUserDefaultsKey: WindowAction.topVerticalTwoThirds.name)
+            bottomVerticalTwoThirdsShortcutView.bind(toUserDefaultsKey: WindowAction.bottomVerticalTwoThirds.name)
 
-            topLeftEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftEighth.name, withTransformerName: MASDictionaryTransformerName)
-            topCenterLeftEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.topCenterLeftEighth.name, withTransformerName: MASDictionaryTransformerName)
-            topCenterRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.topCenterRightEighth.name, withTransformerName: MASDictionaryTransformerName)
-            topRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.topRightEighth.name, withTransformerName: MASDictionaryTransformerName)
-            bottomLeftEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomLeftEighth.name, withTransformerName: MASDictionaryTransformerName)
-            bottomCenterLeftEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomCenterLeftEighth.name, withTransformerName: MASDictionaryTransformerName)
-            bottomCenterRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomCenterRightEighth.name, withTransformerName: MASDictionaryTransformerName)
-            bottomRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomRightEighth.name, withTransformerName: MASDictionaryTransformerName)
+            topLeftEighthShortcutView.bind(toUserDefaultsKey: WindowAction.topLeftEighth.name)
+            topCenterLeftEighthShortcutView.bind(toUserDefaultsKey: WindowAction.topCenterLeftEighth.name)
+            topCenterRightEighthShortcutView.bind(toUserDefaultsKey: WindowAction.topCenterRightEighth.name)
+            topRightEighthShortcutView.bind(toUserDefaultsKey: WindowAction.topRightEighth.name)
+            bottomLeftEighthShortcutView.bind(toUserDefaultsKey: WindowAction.bottomLeftEighth.name)
+            bottomCenterLeftEighthShortcutView.bind(toUserDefaultsKey: WindowAction.bottomCenterLeftEighth.name)
+            bottomCenterRightEighthShortcutView.bind(toUserDefaultsKey: WindowAction.bottomCenterRightEighth.name)
+            bottomRightEighthShortcutView.bind(toUserDefaultsKey: WindowAction.bottomRightEighth.name)
 
             if Defaults.allowAnyShortcut.enabled {
                 let passThroughValidator = PassthroughShortcutValidator()
@@ -835,13 +828,13 @@ class SettingsViewController: NSViewController {
             sixteenthsCyclingLabel.alignment = .right
             sixteenthsCyclingLabel.translatesAutoresizingMaskIntoConstraints = false
 
-            let ninthsCyclingShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let twelfthsCyclingShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
-            let sixteenthsCyclingShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let ninthsCyclingShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let twelfthsCyclingShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
+            let sixteenthsCyclingShortcutView = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 160, height: 19))
 
-            ninthsCyclingShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftNinth.name, withTransformerName: MASDictionaryTransformerName)
-            twelfthsCyclingShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftTwelfth.name, withTransformerName: MASDictionaryTransformerName)
-            sixteenthsCyclingShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftSixteenth.name, withTransformerName: MASDictionaryTransformerName)
+            ninthsCyclingShortcutView.bind(toUserDefaultsKey: WindowAction.topLeftNinth.name)
+            twelfthsCyclingShortcutView.bind(toUserDefaultsKey: WindowAction.topLeftTwelfth.name)
+            sixteenthsCyclingShortcutView.bind(toUserDefaultsKey: WindowAction.topLeftSixteenth.name)
 
             let ninthsCyclingIcon = NSImageView(frame: NSRect(x: 0, y: 0, width: 21, height: 14))
             ninthsCyclingIcon.image = WindowAction.topLeftNinth.image
@@ -863,7 +856,7 @@ class SettingsViewController: NSViewController {
                 return stack
             }
 
-            func makeRow(_ labelStack: NSStackView, _ shortcutView: MASShortcutView) -> NSStackView {
+            func makeRow(_ labelStack: NSStackView, _ shortcutView: ShortcutRecorderView) -> NSStackView {
                 let row = NSStackView()
                 row.orientation = .horizontal
                 row.alignment = .centerY
@@ -1036,15 +1029,11 @@ class SettingsViewController: NSViewController {
     override func awakeFromNib() {
         initializeToggles()
 
-        checkForUpdatesAutomaticallyCheckbox.bind(.value, to: AppDelegate.instance.updaterController.updater, withKeyPath: "automaticallyChecksForUpdates", options: nil)
-        
         let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         
         versionLabel.stringValue = "v" + appVersionString + " (" + buildString + ")"
 
-        updateCheckForUpdatesTitle()
-        
         initializeTodoModeSettings()
         shortcutRecordingObserver.observe([toggleTodoShortcutView, reflowTodoShortcutView])
         
@@ -1088,13 +1077,6 @@ class SettingsViewController: NSViewController {
             self.hideMenuBarIconCheckbox.state = .on
         })
         
-        Notification.Name.updateAvailability.onPost { _ in
-            self.updateCheckForUpdatesTitle()
-        }
-    }
-    
-    func updateCheckForUpdatesTitle() {
-        checkForUpdatesButton.title = AppDelegate.instance.hasPendingUpdate ? "Update Available…".localized : "Check for Updates…".localized(key: "74m-kw-w1f.title")
     }
     
     func initializeTodoModeSettings() {
@@ -1111,8 +1093,8 @@ class SettingsViewController: NSViewController {
         TodoManager.initReflowShortcut()
         toggleTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey)
         reflowTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.reflowDefaultsKey)
-        toggleTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.toggleDefaultsKey, withTransformerName: MASDictionaryTransformerName)
-        reflowTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.reflowDefaultsKey, withTransformerName: MASDictionaryTransformerName)
+        toggleTodoShortcutView.bind(toUserDefaultsKey: TodoManager.toggleDefaultsKey)
+        reflowTodoShortcutView.bind(toUserDefaultsKey: TodoManager.reflowDefaultsKey)
         showHideTodoModeSettings(animated: false)
     }
     
@@ -1121,8 +1103,6 @@ class SettingsViewController: NSViewController {
     }
     
     func initializeToggles() {
-        checkForUpdatesAutomaticallyCheckbox.state = Defaults.SUEnableAutomaticChecks.enabled ? .on : .off
-        
         launchOnLoginCheckbox.state = Defaults.launchOnLogin.enabled ? .on : .off
         
         hideMenuBarIconCheckbox.state = Defaults.hideMenuBarIcon.enabled ? .on : .off
