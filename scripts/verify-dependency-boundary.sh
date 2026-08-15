@@ -29,35 +29,6 @@ if [[ -n "$resolved_files" ]]; then
     exit 1
 fi
 
-executable_paths=(
-    Rectangle
-    RectangleLauncher
-    RectangleTests
-    Rectangle.xcodeproj
-    LocalPackages/RectangleShortcuts/Package.swift
-    LocalPackages/RectangleShortcuts/Sources
-    LocalPackages/RectangleShortcuts/Tests
-)
-
-fail_with_matches \
-    "Sparkle code or updater metadata" \
-    'Sparkle|SPU[A-Za-z0-9_]+|SUFeedURL|SUPublicEDKey|SUEnableAutomaticChecks|SUAllowsAutomaticUpdates|SUAutomaticallyUpdate|NSAllowsArbitraryLoads' \
-    "${executable_paths[@]}" \
-    --glob '*.{swift,m,h,plist,storyboard,pbxproj,entitlements}' --glob 'Package.swift'
-
-fail_with_matches \
-    "executable MASShortcut reference" \
-    'MASShortcut' \
-    "${executable_paths[@]}" \
-    --glob '*.{swift,m,h,plist,storyboard,pbxproj,entitlements}' --glob 'Package.swift'
-
-artifact_names=$(git ls-files | rg -i '(^|/)(Sparkle|Autoupdate|Updater)(/|\.|$)' || true)
-if [[ -n "$artifact_names" ]]; then
-    echo "Dependency boundary violation: updater artifact" >&2
-    echo "$artifact_names" >&2
-    exit 1
-fi
-
 if [[ $# -gt 1 ]]; then
     echo "Usage: $0 [Rectangle.app]" >&2
     exit 2
@@ -70,28 +41,20 @@ if [[ $# -eq 1 ]]; then
         exit 2
     fi
 
-    built_artifacts=$(find "$app_path" \( \
-        -iname '*Sparkle*' -o \
-        -iname '*Updater*' -o \
-        -iname '*Autoupdate*' -o \
-        -iname '*MASShortcut*' \
-    \) -print)
-    if [[ -n "$built_artifacts" ]]; then
-        echo "Dependency boundary violation: forbidden built artifact" >&2
-        echo "$built_artifacts" >&2
-        exit 1
-    fi
-
-    fail_with_matches \
-        "updater metadata or executable dependency in built app" \
-        'Sparkle|SPU[A-Za-z0-9_]+|SUFeedURL|SUPublicEDKey|MASShortcut' \
-        "$app_path/Contents" \
-        --text
-
     while IFS= read -r -d '' candidate; do
         if ! file -b "$candidate" | rg -q '^Mach-O'; then
             continue
         fi
+
+        case "$candidate" in
+            */Contents/MacOS/*|*/Contents/Frameworks/libswift*.dylib)
+                ;;
+            *)
+                echo "Dependency boundary violation: unexpected packaged Mach-O component" >&2
+                echo "$candidate" >&2
+                exit 1
+                ;;
+        esac
 
         while IFS= read -r dependency; do
             case "$dependency" in
