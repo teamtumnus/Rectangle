@@ -6,6 +6,7 @@ repo_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_root"
 git_command=${GIT_COMMAND:-git}
 file_command=${FILE_COMMAND:-file}
+find_command=${FIND_COMMAND:-find}
 otool_command=${OTOOL_COMMAND:-otool}
 
 fail_with_matches() {
@@ -32,7 +33,7 @@ fail_with_matches() {
 fail_with_matches \
     "remote Swift package reference" \
     'XCRemoteSwiftPackageReference|repositoryURL[[:space:]]*=|\.package[[:space:]]*\(' \
-    -- 'Rectangle.xcodeproj/**/project.pbxproj' 'LocalPackages/**/Package.swift'
+    -- ':(glob)**/project.pbxproj' ':(glob)**/Package.swift'
 
 resolved_files=$(git ls-files '*Package.resolved')
 if [[ -n "$resolved_files" ]]; then
@@ -51,6 +52,16 @@ if [[ $# -eq 1 ]]; then
     if [[ ! -d "$app_path/Contents" ]]; then
         echo "Expected a built app bundle: $app_path" >&2
         exit 2
+    fi
+
+    candidate_list=$(mktemp "${TMPDIR:-/tmp}/rectangle-packaged-files.XXXXXX")
+    trap 'rm -f "$candidate_list"' EXIT
+    find_status=0
+    "$find_command" "$app_path/Contents" -type f -print0 > "$candidate_list" || find_status=$?
+    if [[ $find_status -ne 0 ]]; then
+        echo "Dependency boundary check failed while traversing the app bundle" >&2
+        echo "$app_path" >&2
+        exit "$find_status"
     fi
 
     while IFS= read -r -d '' candidate; do
@@ -93,7 +104,7 @@ if [[ $# -eq 1 ]]; then
                     ;;
             esac
         done < <(printf '%s\n' "$otool_output" | awk '/^[[:space:]]/ { print $1 }')
-    done < <(find "$app_path/Contents" -type f -print0)
+    done < "$candidate_list"
 fi
 
 echo "Dependency boundary verified."
